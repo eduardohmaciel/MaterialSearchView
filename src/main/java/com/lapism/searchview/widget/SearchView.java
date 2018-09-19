@@ -303,6 +303,24 @@ public class SearchView extends SearchLayout implements Filter.FilterListener, C
         setSaveEnabled(true);
 
         mSearchEditText.setVisibility(View.VISIBLE); // todo
+        
+        viewTreeObserver = mMaterialCardView.getViewTreeObserver();
+        if(viewTreeObserver.isAlive()){
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mMaterialCardView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        // prohodit
+                        SearchAnimator.revealOpen(
+                                mContext,
+                                mMaterialCardView,
+                                mMenuItemCx,
+                                mAnimationDuration,
+                                mSearchEditText,
+                                mOnOpenCloseListener);
+                    }
+                });
+        }
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -396,19 +414,6 @@ public class SearchView extends SearchLayout implements Filter.FilterListener, C
                 if (mMenuItem != null) {
                     getMenuItemPosition(mMenuItem.getItemId());
                 }
-                mMaterialCardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mMaterialCardView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        SearchAnimator.revealOpen(
-                                mContext,
-                                mMaterialCardView,
-                                mMenuItemCx,
-                                mAnimationDuration,
-                                mSearchEditText,
-                                mOnOpenCloseListener);
-                    }
-                });
                 break;
         }
     }
