@@ -54,7 +54,7 @@ public class Search {
     @Retention(RetentionPolicy.SOURCE)
     public @interface Theme {
         int PLAY = 3000;
-        int GOOGLE = 3001;
+        int GOOGLE= 3001;
         int LIGHT = 3002;
         int DARK = 3003;
         int MAPS = 3004;

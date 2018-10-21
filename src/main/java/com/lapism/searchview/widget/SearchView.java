@@ -247,7 +247,8 @@ public class SearchView extends SearchLayout implements Filter.FilterListener, C
         if (a.hasValue(R.styleable.SearchView_search_clear_icon)) {
             setClearIcon(a.getDrawable(R.styleable.SearchView_search_clear_icon));
         } else {
-            //setClearIcon(ContextCompat.getDrawable(mContext, R.drawable.search_ic_clear_black_24dp, mContext.getTheme()));
+            setClearIcon(ContextCompat.getDrawable(mContext, R.drawable.search_ic_clear_black_24dp));
+            // getDrawable z contextu a getColor z Contextu
         }
 
         if (a.hasValue(R.styleable.SearchView_search_clear_color)) {

@@ -240,6 +240,8 @@ public abstract class SearchLayout extends FrameLayout implements View.OnClickLi
                 setTextColor(ContextCompat.getColor(mContext, R.color.search_dark_title));
                 break;
             case Search.Theme.MAPS:
+
+                // todo
                 setBackgroundColor(ContextCompat.getColor(mContext, R.color.search_play_background));
                 setDividerColor(ContextCompat.getColor(mContext, R.color.search_play_divider));
                 setLogoColor(ContextCompat.getColor(mContext, R.color.search_play_icon));
@@ -248,11 +250,6 @@ public abstract class SearchLayout extends FrameLayout implements View.OnClickLi
                 setMenuColor(ContextCompat.getColor(mContext, R.color.search_play_icon));
                 setHintColor(ContextCompat.getColor(mContext, R.color.search_play_hint));
                 setTextColor(ContextCompat.getColor(mContext, R.color.search_play_title));
-
-                setRadius(getResources().getDimensionPixelSize(R.dimen.search_shape_rounded));
-                setStrokeColor(ContextCompat.getColor(mContext, R.color.search_maps));
-                setStrokeWidth(1);
-                setElevation(0);
                 break;
         }
     }
@@ -478,8 +475,8 @@ public abstract class SearchLayout extends FrameLayout implements View.OnClickLi
     // Overrides
     @Override
     public void setElevation(float elevation) {
-        mMaterialCardView.setMaxCardElevation(elevation);
         mMaterialCardView.setCardElevation(elevation);
+        mMaterialCardView.setElevation(elevation);
     }
 
     @Override
