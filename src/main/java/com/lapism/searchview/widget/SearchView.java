@@ -45,86 +45,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class SearchView extends FrameLayout implements
-        View.OnClickListener,
-        Filter.FilterListener {
+public class SearchView extends FrameLayout{
 
-    @Search.Logo
-    private int mLogo;
-    @Search.Shape
-    private int mShape;
-    @Search.Theme
-    private int mTheme;
-    @Search.Version
-    private int mVersion;
-    @Search.VersionMargins
-    private int mVersionMargins;
 
-    private Search.OnLogoClickListener mOnLogoClickListener;
-    private Search.OnMicClickListener mOnMicClickListener;
-    private Search.OnMenuClickListener mOnMenuClickListener;
-    private Search.OnOpenCloseListener mOnOpenCloseListener;
-    private Search.OnQueryTextListener mOnQueryTextListener;
+
+
 
 
     private CharSequence mQueryText = "";
-    private MaterialCardView mMaterialCardView;
-    private ImageView mImageViewLogo;
-    private ImageView mImageViewMic;
-    private ImageView mImageViewClear;
-    private ImageView mImageViewMenu;
-    private SearchEditText mSearchEditText;
-    private SearchArrowDrawable mSearchArrowDrawable;
-    private int mTextStyle = Typeface.NORMAL;
-    private Typeface mTextFont = Typeface.DEFAULT;
-    private LinearLayout mLinearLayout;
+
     private int mMenuItemCx = -1;
     private boolean mShadow;
     private long mAnimationDuration;
-    private ImageView mImageViewImage;
     private MenuItem mMenuItem;
-    private View mMenuItemView;
-    private View mViewShadow;
-    private View mViewDivider;
-    private RecyclerView mRecyclerView;
 
-    // ---------------------------------------------------------------------------------------------
-    public SearchView(@NonNull Context context) {
-        super(context);
-        init(context, null, 0, 0);
-    }
-
-    public SearchView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs, 0, 0);
-    }
-
-    public SearchView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr, 0);
-    }
-
-    public SearchView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-
-    public SearchViewX(@NonNull Context context) {
-        super(context);
-    }
-
-    public SearchViewX(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public SearchViewX(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public SearchViewX(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
 
     // ---------------------------------------------------------------------------------------------
@@ -228,9 +162,6 @@ public class SearchView extends FrameLayout implements
         //mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-        });
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SearchView, defStyleAttr, defStyleRes);
 
@@ -318,18 +249,7 @@ public class SearchView extends FrameLayout implements
     }
 
 
-    @Search.Version
-    public int getVersion() {
-        return mVersion;
-    }
 
-    public void setVersion(@Search.Version int version) {
-        mVersion = version;
-
-        if (mVersion == Search.Version.Companion.getMENU_ITEM()) {
-            setVisibility(View.GONE);
-        }
-    }
 
     public void setDividerColor(@ColorInt int color) {
         mViewDivider.setBackgroundColor(color);
@@ -369,22 +289,7 @@ public class SearchView extends FrameLayout implements
         mViewShadow.setBackgroundColor(color);
     }
 
-    @Nullable
-    public RecyclerView.Adapter getAdapter() {
-        return mRecyclerView.getAdapter();
-    }
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
-        mRecyclerView.setAdapter(adapter);
-    }
-
-    public void addDivider(@NonNull RecyclerView.ItemDecoration itemDecoration) {
-        mRecyclerView.addItemDecoration(itemDecoration);
-    }
-
-    public void removeDivider(@NonNull RecyclerView.ItemDecoration itemDecoration) {
-        mRecyclerView.removeItemDecoration(itemDecoration);
-    }
 
     public void open(MenuItem menuItem) {
         mMenuItem = menuItem;
@@ -440,16 +345,7 @@ public class SearchView extends FrameLayout implements
         }
     }
 
-    private void setTextImageVisibility(boolean hasFocus) {
-        if (hasFocus) {
-            mImageViewImage.setVisibility(View.GONE);
-            mSearchEditText.setVisibility(View.VISIBLE);
-            mSearchEditText.requestFocus();
-        } else {
-            mSearchEditText.setVisibility(View.GONE);
-            mImageViewImage.setVisibility(View.VISIBLE);
-        }
-    }
+
 
     private void filter(CharSequence s) {
         if (getAdapter() != null && getAdapter() instanceof Filterable) {
@@ -498,7 +394,7 @@ public class SearchView extends FrameLayout implements
         SearchViewSavedState ss = new SearchViewSavedState(superState);
         ss.setHasFocus(mSearchEditText.hasFocus());
         ss.setShadow(mShadow);
-        ss.setQuery(mQueryText != null ? mQueryText.toString() : null); // TODO
+        ss.setQuery(mQueryText); // TODO
         return ss;
     }
 
@@ -523,187 +419,11 @@ public class SearchView extends FrameLayout implements
         requestLayout();
     }
 
-    // ---------------------------------------------------------------------------------------------
-    @Override
-    public void onClick(View v) {
-        if (Objects.equals(v, mImageViewLogo)) {
-            if (mSearchEditText.hasFocus()) {
-                close();
-            } else {
-                if (mOnLogoClickListener != null) {
-                    mOnLogoClickListener.onLogoClick();
-                }
-            }
-        } else if (Objects.equals(v, mImageViewImage)) {
-            setTextImageVisibility(true);
-        } else if (Objects.equals(v, mImageViewMic)) {
-            if (mOnMicClickListener != null) {
-                mOnMicClickListener.onMicClick();
-            }
-        } else if (Objects.equals(v, mImageViewClear)) {
-            if (mSearchEditText.length() > 0) {
-                mSearchEditText.getText().clear();
-            }
-        } else if (Objects.equals(v, mImageViewMenu)) {
-            if (mOnMenuClickListener != null) {
-                mOnMenuClickListener.onMenuClick();
-            }
-        } else if (Objects.equals(v, mViewShadow)) {
-            close();
-        }
-    }
-
-    @Override
-    public void onFilterComplete(int count) {
-        if (count > 0) {
-            showSuggestions();
-        } else {
-            hideSuggestions();
-        }
-    }
 
 
 
-    @Search.Logo
-    public int getLogo() {
-        return mLogo;
-    }
 
-    public void setLogo(@Search.Logo int logo) {
-        mLogo = logo;
-        Context context = getContext();
 
-        switch (mLogo) {
-            case Search.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION():
-                mSearchArrowDrawable = new SearchArrowDrawable(context);
-                mImageViewLogo.setImageDrawable(mSearchArrowDrawable);
-                break;
-            case Search.Logo.Companion.getARROW():
-                mImageViewLogo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.search_ic_outline_arrow_back_24px));
-                break;
-        }
-    }
-
-    @Search.Shape
-    public int getShape() {
-        return mShape;
-    }
-
-    public void setShape(@Search.Shape int shape) {
-        mShape = shape;
-
-        switch (mShape) {
-            case Search.Shape.Companion.getCLASSIC():
-                setRadius(getResources().getDimensionPixelSize(R.dimen.search_shape_classic));
-                break;
-            case Search.Shape.Companion.getROUNDED():
-                setRadius(getResources().getDimensionPixelSize(R.dimen.search_shape_rounded));
-                break;
-        }
-    }
-
-    @Search.Theme
-    public int getTheme() {
-        return mTheme;
-    }
-
-    public void setTheme(@Search.Theme int theme) {
-        mTheme = theme;
-        Context context = getContext();
-
-        switch (mTheme) {
-            case Search.Theme.Companion.getLIGHT():
-                setBackgroundColor(ContextCompat.getColor(context, R.color.search_light_background));
-                setDividerColor(ContextCompat.getColor(context, R.color.search_light_divider));
-                setLogoColor(ContextCompat.getColor(context, R.color.search_light_icon));
-                setMicColor(ContextCompat.getColor(context, R.color.search_light_icon));
-                setClearColor(ContextCompat.getColor(context, R.color.search_light_icon));
-                setMenuColor(ContextCompat.getColor(context, R.color.search_light_icon));
-                setHintColor(ContextCompat.getColor(context, R.color.search_light_hint));
-                setTextColor(ContextCompat.getColor(context, R.color.search_light_title));
-                break;
-            case Search.Theme.Companion.getDARK():
-                setBackgroundColor(ContextCompat.getColor(context, R.color.search_dark_background));
-                setDividerColor(ContextCompat.getColor(context, R.color.search_dark_divider));
-                setLogoColor(ContextCompat.getColor(context, R.color.search_dark_icon));
-                setMicColor(ContextCompat.getColor(context, R.color.search_dark_icon));
-                setClearColor(ContextCompat.getColor(context, R.color.search_dark_icon));
-                setMenuColor(ContextCompat.getColor(context, R.color.search_dark_icon));
-                setHintColor(ContextCompat.getColor(context, R.color.search_dark_hint));
-                setTextColor(ContextCompat.getColor(context, R.color.search_dark_title));
-                break;
-        }
-    }
-
-    @Search.VersionMargins
-    public int getVersionMargins() {
-        return mVersionMargins;
-    }
-
-    public void setVersionMargins(@Search.VersionMargins int versionMargins) {
-        Context context = getContext();
-
-        mVersionMargins = versionMargins;
-
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int left, top, right, bottom;
-
-        switch (mVersionMargins) {
-            case Search.VersionMargins.Companion.getTOOLBAR():
-                left = context.getResources().getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right);
-                top = context.getResources().getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom);
-                right = context.getResources().getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right);
-                bottom = context.getResources().getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom);
-
-                params.setMargins(left, top, right, bottom);
-
-                mMaterialCardView.setLayoutParams(params);
-                break;
-            case Search.VersionMargins.Companion.getMENU_ITEM():
-                left = context.getResources().getDimensionPixelSize(R.dimen.search_menu_item_margin);
-                top = context.getResources().getDimensionPixelSize(R.dimen.search_menu_item_margin);
-                right = context.getResources().getDimensionPixelSize(R.dimen.search_menu_item_margin);
-                bottom = context.getResources().getDimensionPixelSize(R.dimen.search_menu_item_margin);
-
-                params.setMargins(left, top, right, bottom);
-
-                mMaterialCardView.setLayoutParams(params);
-                break;
-        }
-    }
-
-    // ---------------------------------------------------------------------------------------------
-    // Logo
-    public void setLogoIcon(@DrawableRes int resource) {
-        mImageViewLogo.setImageResource(resource);
-    }
-
-    public void setLogoIcon(@Nullable Drawable drawable) {
-        if (drawable != null) {
-            mImageViewLogo.setImageDrawable(drawable);
-        } else {
-            mImageViewLogo.setVisibility(View.GONE);
-        }
-    }
-
-    public void setLogoColor(@ColorInt int color) {
-        mImageViewLogo.setColorFilter(color);
-    }
-
-    // Mic
-    public void setMicIcon(@DrawableRes int resource) {
-        mImageViewMic.setImageResource(resource);
-    }
-
-    public void setMicIcon(@Nullable Drawable drawable) {
-        mImageViewMic.setImageDrawable(drawable);
-    }
-
-    public void setMicColor(@ColorInt int color) {
-        mImageViewMic.setColorFilter(color);
-    }
-
-    // Menu
     public void setMenuIcon(@DrawableRes int resource) {
         mImageViewMenu.setImageResource(resource);
     }
@@ -746,41 +466,14 @@ public class SearchView extends FrameLayout implements
         mSearchEditText.setTextSize(size);
     }
 
-    /**
-     * Typeface.NORMAL
-     * Typeface.BOLD
-     * Typeface.ITALIC
-     * Typeface.BOLD_ITALIC
-     */
-    public void setTextStyle(int style) {
-        mTextStyle = style;
-        mSearchEditText.setTypeface((Typeface.create(mTextFont, mTextStyle)));
-    }
 
-    /**
-     * Typeface.DEFAULT
-     * Typeface.DEFAULT_BOLD
-     * Typeface.SANS_SERIF
-     * Typeface.SERIF
-     * Typeface.MONOSPACE
-     */
-    public void setTextFont(Typeface font) {
-        mTextFont = font;
-        mSearchEditText.setTypeface((Typeface.create(mTextFont, mTextStyle)));
-    }
 
-    /*
-     * Use Gravity or GravityCompat
-     */
+
+    // Use Gravity or GravityCompat
     public void setTextGravity(int gravity) {
         mSearchEditText.setGravity(gravity);
     }
 
-    /**
-     * Dokka
-     *
-     * @param hint
-     */
     public void setHint(CharSequence hint) {
         mSearchEditText.setHint(hint);
     }
@@ -836,24 +529,10 @@ public class SearchView extends FrameLayout implements
     }
 
     // MaterialCardView
-    public void setStrokeWidth(@Dimension int strokeWidth) {
-        mMaterialCardView.setStrokeWidth(strokeWidth);
-    }
 
-    public void setStrokeColor(@ColorInt int strokeColor) {
-        mMaterialCardView.setStrokeColor(strokeColor);
-    }
-
-    public void setRadius(float radius) {
-        mMaterialCardView.setRadius(radius);
-    }
 
     // Overrides
-    @Override
-    public void setElevation(float elevation) {
-        mMaterialCardView.setCardElevation(elevation);
-        mMaterialCardView.setElevation(elevation);
-    }
+
 
     @Override
     public void setBackgroundColor(@ColorInt int color) {
@@ -861,7 +540,6 @@ public class SearchView extends FrameLayout implements
     }
 
     // @FloatRange(from = 0.5, to = 1.0)
-    // Others
     public boolean isOpen() {
         return getVisibility() == View.VISIBLE;
     }
@@ -878,9 +556,7 @@ public class SearchView extends FrameLayout implements
         mOnOpenCloseListener = listener;
     }
 
-    /**
-     * @param listener
-     */
+
     public void setOnMicClickListener(Search.OnMicClickListener listener) {
         mOnMicClickListener = listener;
         if (mOnMicClickListener != null) {
@@ -924,34 +600,3 @@ public class SearchView extends FrameLayout implements
 
 }
 
-
-/* kulate rohy a light a zkontrolvat Bar a compat nekde pouzito???
- * ZKONTROLOVAT VZHLED KODU ...
- * readme
- * +  todo obraky a dodelat vypis metod
- * THIS A PRIVATE
- * colorpicker
- * komENTARE A BUGY
- * */
-
-
-
-/*
-if ( drawable != null ) {
-    Bitmap bitmap = (Bitmap) ((BitmapDrawable) drawable).getBitmap();
-    parcel.writeParcelable(bitmap, flags);
-}
-else {
-    parcel.writeParcelable(null, flags);
-}
-
-To read the Drawable from the Parcelable:
-
-Bitmap bitmap = (Bitmap) in.readParcelable(getClass().getClassLoader());
-if ( bitmap != null ) {
-    drawable = new BitmapDrawable(bitmap);
-}
-else {
-    drawable = null;
-}
-*/

@@ -5,15 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.speech.RecognizerIntent
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
 import androidx.annotation.IntDef
 
 
 object Search {
 
-    val SPEECH_REQUEST_CODE = 99
+    const val SPEECH_REQUEST_CODE = 99
 
     fun setVoiceSearch(activity: Activity, text: String) {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -31,17 +28,17 @@ object Search {
     }
 
     @IntDef(Logo.HAMBURGER, Logo.ARROW, Logo.HAMBURGER_TO_ARROW_ANIMATION)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     annotation class Logo {
         companion object {
-            val HAMBURGER = 100
-            val ARROW = 101
-            val HAMBURGER_TO_ARROW_ANIMATION = 102
+            const val HAMBURGER = 100
+            const val ARROW = 101
+            const val HAMBURGER_TO_ARROW_ANIMATION = 102
         }
     }
 
     @IntDef(Shape.CLASSIC, Shape.ROUNDED)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     annotation class Shape {
         companion object {
             const val CLASSIC = 200
@@ -50,7 +47,7 @@ object Search {
     }
 
     @IntDef(Theme.LIGHT, Theme.DARK)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     annotation class Theme {
         companion object {
             const val LIGHT = 300
@@ -59,7 +56,7 @@ object Search {
     }
 
     @IntDef(Version.TOOLBAR, Version.MENU_ITEM)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     annotation class Version {
         companion object {
             const val TOOLBAR = 400
@@ -68,7 +65,7 @@ object Search {
     }
 
     @IntDef(VersionMargins.TOOLBAR, VersionMargins.MENU_ITEM)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     annotation class VersionMargins {
         companion object {
             const val TOOLBAR = 500
