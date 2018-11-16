@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="SearchViewX">
+        <attr name="search_logo" />
+        <attr name="search_shape" />
+        <attr name="search_theme" />
+        <attr name="search_version" />
+        <attr name="search_version_margins" />
+    </declare-styleable>
+
+
     <declare-styleable name="SearchView">
         <attr name="search_logo" format="enum">
-            <enum name="google" value="1000" />
-            <enum name="hamburger_arrow" value="1001" />
-            <enum name="arrow" value="1002" />
+            <enum name="hamburger" value="100" />
+            <enum name="arrow" value="101" />
+            <enum name="hamburger_to_arrow_animation" value="102" />
         </attr>
         <attr name="search_shape" format="enum">
-            <enum name="classic" value="2000" />
-            <enum name="rounded" value="2001" />
-            <enum name="oval" value="2002" />
+            <enum name="classic" value="200" />
+            <enum name="rounded" value="201" />
         </attr>
         <attr name="search_theme" format="enum">
-            <enum name="play" value="3000" />
-            <enum name="google" value="3001" />
-            <enum name="light" value="3002" />
-            <enum name="dark" value="3003" />
-        </attr>
-        <attr name="search_version_margins" format="enum">
-            <enum name="bar" value="5000" />
-            <enum name="toolbar" value="5001" />
-            <enum name="menu_item" value="5002" />
+            <enum name="light" value="300" />
+            <enum name="dark" value="301" />
         </attr>
         <attr name="search_version" format="enum">
-            <enum name="toolbar" value="4000" />
-            <enum name="menu_item" value="4001" />
+            <enum name="toolbar" value="400" />
+            <enum name="menu_item" value="401" />
         </attr>
+        <attr name="search_version_margins" format="enum">
+            <enum name="toolbar" value="500" />
+            <enum name="menu_item" value="501" />
+        </attr>
+
         <attr name="search_logo_icon" format="integer" />
         <attr name="search_logo_color" format="color" />
         <attr name="search_mic_icon" format="integer" />
@@ -53,14 +59,6 @@
         <attr name="search_elevation" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="SearchBar">
-        <attr name="search_logo" />
-        <attr name="search_shape" />
-        <attr name="search_theme" />
-        <attr name="search_version_margins" />
-        <attr name="search_elevation" />
-    </declare-styleable>
-
-    <!-- reference -->
+    <!-- TODO reference -->
 
 </resources>

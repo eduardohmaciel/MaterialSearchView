@@ -40,10 +40,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="start|center_vertical"
-                    android:paddingEnd="@dimen/search_key_line_8"
+                    android:paddingStart="@dimen/search_key_line_8"
                     android:paddingLeft="@dimen/search_key_line_8"
-                    android:paddingRight="@dimen/search_key_line_8"
-                    android:paddingStart="@dimen/search_key_line_8">
+                    android:paddingEnd="@dimen/search_key_line_8"
+                    android:paddingRight="@dimen/search_key_line_8">
 
                     <com.lapism.searchview.internal.SearchEditText
                         android:id="@+id/search_searchEditText"
@@ -57,13 +57,6 @@
                         android:privateImeOptions="nm"
                         android:textSize="@dimen/search_text_16"
                         android:windowSoftInputMode="stateAlwaysHidden" />
-
-                    <ImageView
-                        android:id="@+id/search_imageView_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/search_app_name"
-                        android:scaleType="fitStart" />
 
                 </FrameLayout>
 
@@ -104,7 +97,6 @@
                 android:id="@+id/search_view_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/search_divider" />
-            <!-- ?android:attr/listDivider never-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_recyclerView"

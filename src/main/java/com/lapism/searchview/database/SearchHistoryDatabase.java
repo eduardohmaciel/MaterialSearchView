@@ -6,11 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
-
+// TODO ROOM
 class SearchHistoryDatabase extends SQLiteOpenHelper {
 
     static final String SEARCH_HISTORY_TABLE = "search_history";
-    static final String SEARCH_HISTORY_COLUMN_ID = "_id";
     static final String SEARCH_HISTORY_COLUMN_TITLE = "_title";
     static final String SEARCH_HISTORY_COLUMN_SUBTITLE = "_subtitle";
 
@@ -48,34 +47,3 @@ class SearchHistoryDatabase extends SQLiteOpenHelper {
 }
 
 
-
-/* kulate rohy a light a zkontrolvat Bar a compat nekde pouzito???
- * ZKONTROLOVAT VZHLED KODU ...
- * readme
- * +  todo obraky a dodelat vypis metod
- * THIS A PRIVATE
- * colorpicker
- * komENTARE A BUGY
- * */
-
-
-
-/*
-if ( drawable != null ) {
-    Bitmap bitmap = (Bitmap) ((BitmapDrawable) drawable).getBitmap();
-    parcel.writeParcelable(bitmap, flags);
-}
-else {
-    parcel.writeParcelable(null, flags);
-}
-
-To read the Drawable from the Parcelable:
-
-Bitmap bitmap = (Bitmap) in.readParcelable(getClass().getClassLoader());
-if ( bitmap != null ) {
-    drawable = new BitmapDrawable(bitmap);
-}
-else {
-    drawable = null;
-}
-*/

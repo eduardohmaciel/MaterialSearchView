@@ -18,12 +18,12 @@ In last version I had to change version number from 28.0.0-alpha1 to 1.0.0-alpha
 
 ## Using
 Work in progress.
-Now it works only for API 21+.
+Now it works only for API 21+ and use AndroidX package system.
 
 Add the dependency to your gradle file:
 ```groovy
 dependencies {
-    implementation 'com.lapism:searchview:1.0.0.0.0-alpha3'
+    implementation 'com.lapism:searchview:1.0.0.0.0'
 }
 ```
 
@@ -39,8 +39,6 @@ dependencies {
 ## Readme
 
 ![Search](https://github.com/lapism/SearchBar-SearchView/blob/master/images/search.png)
-
-**[README for SearchBar](https://github.com/lapism/SearchBar-SearchView/blob/master/README_SearchBar.md)**  
 
 **[README for SearchView](https://github.com/lapism/SearchBar-SearchView/blob/master/README_SearchView.md)**  
 
