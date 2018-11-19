@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- AppCompat Light Theme -->
+    <!-- Light -->
+    <color name="search_light_background">#ffffff</color>
+    <color name="search_light_icon">#3c4043</color>
+    <color name="search_light_icon_1_2">#80868b</color>
+
+
     <color name="search_light_divider">#1f000000</color>
-    <color name="search_light_icon">#757575</color>
-    <color name="search_light_background">#fafafa</color>
     <color name="search_light_title">#de000000</color>
     <color name="search_light_title_highlight">#33000000</color>
     <color name="search_light_subtitle">#8a000000</color>
     <color name="search_light_hint">#60000000</color>
-    <color name="search_light_icon_1_2">#757575</color>
 
-    <!-- AppCompat Dark Theme -->
+
+    <!-- Dark -->
+    <color name="search_dark_background">#3c4043</color>
+    <color name="search_dark_icon">#ffffff</color>
+    <color name="search_dark_icon_1_2">#bdc1c6</color>
+
+
     <color name="search_dark_divider">#1fffffff</color>
-    <color name="search_dark_icon">#bdbdbd</color>
-    <color name="search_dark_background">#303030</color>
     <color name="search_dark_title">#ffffff</color>
     <color name="search_dark_title_highlight">#aeffffff</color>
     <color name="search_dark_subtitle">#b3ffffff</color>
     <color name="search_dark_hint">#7fffffff</color>
-    <color name="search_dark_icon_1_2">#bdbdbd</color>
 
-    <!-- Shadow -->
+
+    <!-- Shadow VYENIT IKONKY TODO -->
     <color name="search_shadow">#99000000</color>
     <color name="search_inset_foreground">#44000000</color>
-
-
-
-
-
-
-
-    <!-- Google -->
-    <color name="search_google_blue">#4285f4</color>
-    <color name="search_google_green">#34a853</color>
-    <color name="search_google_yellow">#fbbc05</color>
-    <color name="search_google_red">#ea4335</color>
 
 </resources>

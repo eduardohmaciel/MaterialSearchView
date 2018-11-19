@@ -10,6 +10,7 @@ import androidx.annotation.IntDef
 
 object Search {
 
+    // todo companion object
     const val SPEECH_REQUEST_CODE = 99
 
     fun setVoiceSearch(activity: Activity, text: String) {
@@ -101,9 +102,9 @@ object Search {
 
     interface OnQueryTextListener {
 
-        fun onQueryTextSubmit(query: CharSequence): Boolean
+        fun onQueryTextSubmit(query: CharSequence?): Boolean
 
-        fun onQueryTextChange(newText: CharSequence)
+        fun onQueryTextChange(newText: CharSequence?)
 
     }
 

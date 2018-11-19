@@ -29,7 +29,7 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     private var mContext: WeakReference<Context>? = null
     private var mDatabase: MutableList<SearchItem>
     private var mConstraint: CharSequence? = null
-    var suggestionsList: List<SearchItem>? = null
+    private var suggestionsList: List<SearchItem>? = null
     private var resultsList: List<SearchItem>? = null
     private var mSearchItemClickListener: OnSearchItemClickListener? = null
     @ColorInt
@@ -45,6 +45,7 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     private var mTextStyle = Typeface.NORMAL
     private var mTextFont = Typeface.DEFAULT
     private val mHistoryDatabase: SearchHistoryTable
+    /// var suggestionsList: MutableList<SearchItem>
 
     init {
         mContext = WeakReference(context)
@@ -53,6 +54,10 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
         resultsList = mDatabase// todo
         suggestionsList = ArrayList()
         setTheme(Search.Theme.LIGHT)
+    }
+
+    fun setSuggestionsList(suggestionsList: List<SearchItem>){
+        this.suggestionsList = suggestionsList
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -242,6 +247,9 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     }
 
     // ---------------------------------------------------------------------------------------------
+
+
+
     interface OnSearchItemClickListener {
 
         fun onSearchItemClick(position: Int, title: CharSequence, subtitle: CharSequence)
@@ -249,5 +257,5 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     }
 
 
-    // TODO OVERRIDES ZNOVA...KOTLINOVE
+    // TODO OVERRIDES ZNOVA...KOTLINOVE+ANJOTACE
 }

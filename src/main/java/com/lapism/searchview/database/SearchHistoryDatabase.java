@@ -17,7 +17,7 @@ class SearchHistoryDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "searchHistoryDatabase.db";
     private static final String CREATE_TABLE_SEARCH_HISTORY = "CREATE TABLE IF NOT EXISTS "
             + SEARCH_HISTORY_TABLE + " ( "
-            + SEARCH_HISTORY_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            //+ SEARCH_HISTORY_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + SEARCH_HISTORY_COLUMN_TITLE + " TEXT, "
             + SEARCH_HISTORY_COLUMN_SUBTITLE + " TEXT " + ");";
 

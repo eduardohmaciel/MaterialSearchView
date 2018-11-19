@@ -12,7 +12,7 @@
 ### XML
 ```xml
 <com.lapism.searchview.widget.SearchView
-    android:id="@+id/searchView"
+    android:id="@+id/materialSearchView"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 ```
@@ -20,7 +20,7 @@
 ### XML for CoordinatorLayout
 ```xml
 <com.lapism.searchview.widget.SearchView
-    android:id="@+id/searchView"
+    android:id="@+id/materialSearchView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/search_behavior"
@@ -83,7 +83,7 @@
 
 ### Java or Kotlin
 ```java
-SearchView searchView = findViewById(R.id.searchView);
+SearchView materialSearchView = findViewById(R.id.materialSearchView);
 ```
 
 **Search.Version.MENU_ITEM:**

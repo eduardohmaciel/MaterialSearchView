@@ -34,8 +34,8 @@
             }
         });
         
-        SearchView searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new Search.OnQueryTextListener() {
+        SearchView materialSearchView = findViewById(R.id.materialSearchView);
+        materialSearchView.setOnQueryTextListener(new Search.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(CharSequence query) {
                         SearchItem item = new SearchItem(MainActivity.this);

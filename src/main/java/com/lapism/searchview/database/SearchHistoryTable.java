@@ -1,12 +1,7 @@
 package com.lapism.searchview.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
 
-import com.lapism.searchview.R;
 import com.lapism.searchview.widget.SearchItem;
 
 import java.lang.ref.WeakReference;
@@ -30,7 +25,7 @@ public class SearchHistoryTable {
     }
 
     public List<SearchItem> getAllItems() {
-
+        return  new ArrayList<>();
     }
 
     public void clearDatabase() {

@@ -10,23 +10,29 @@ import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import androidx.cardview.widget.CardView
+import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
 import com.lapism.searchview.Search
 import com.lapism.searchview.internal.SearchEditText
-import com.lapism.searchview.widget.SearchView
+import com.lapism.searchview.widget.MaterialSearchView
 
 // todo companion object
 object SearchAnimator {
 
-    fun revealOpen(context: Context, cardView: CardView, cardViewX: Int, duration: Long, editText: SearchEditText, listener: Search.OnOpenCloseListener?) {
+    fun revealOpen(
+            context: Context,
+            materialCardView: MaterialCardView?,
+            cardViewX: Int,
+            duration: Long,
+            searchEditText: SearchEditText?,
+            listener: Search.OnOpenCloseListener?) {
         var cx = cardViewX
         if (cx <= 0) {
             val padding = context.resources.getDimensionPixelSize(R.dimen.search_reveal)
             cx = if (isRtlLayout(context)) {
                 padding
             } else {
-                cardView.width - padding
+                materialCardView?.width!! - padding
             }
         }
 
@@ -38,18 +44,18 @@ object SearchAnimator {
             windowManager.defaultDisplay?.getSize(displaySize)
             val finalRadius = Math.hypot(Math.max(cx, displaySize.x - cx).toDouble(), cy.toDouble()).toFloat()
 
-            val anim = ViewAnimationUtils.createCircularReveal(cardView, cx, cy, 0.0f, finalRadius)
+            val anim = ViewAnimationUtils.createCircularReveal(materialCardView, cx, cy, 0.0f, finalRadius)
             anim.interpolator = AccelerateDecelerateInterpolator()
             anim.duration = duration
             anim.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
-                    editText.requestFocus()
+                    searchEditText?.requestFocus()
                 }
 
                 override fun onAnimationStart(animation: Animator) {
                     super.onAnimationStart(animation)
-                    cardView.visibility = View.VISIBLE
+                    materialCardView?.visibility = View.VISIBLE
                     listener?.onOpen()
                 }
             })
@@ -57,14 +63,21 @@ object SearchAnimator {
         }
     }
 
-    fun revealClose(context: Context, cardView: CardView, cardViewX: Int, duration: Long, editText: SearchEditText, searchView: SearchView, listener: Search.OnOpenCloseListener?) {
+    fun revealClose(
+            context: Context,
+            materialCardView: MaterialCardView?,
+            cardViewX: Int,
+            duration: Long,
+            searchEditText: SearchEditText?,
+            searchView: MaterialSearchView,
+            listener: Search.OnOpenCloseListener?) {
         var cx = cardViewX
         if (cx <= 0) {
             val padding = context.resources.getDimensionPixelSize(R.dimen.search_reveal)
             cx = if (isRtlLayout(context)) {
                 padding
             } else {
-                cardView.width - padding
+                materialCardView?.width!! - padding
             }
         }
 
@@ -76,20 +89,20 @@ object SearchAnimator {
             windowManager.defaultDisplay?.getSize(displaySize)
             val initialRadius = Math.hypot(Math.max(cx, displaySize.x - cx).toDouble(), cy.toDouble()).toFloat()
 
-            val anim = ViewAnimationUtils.createCircularReveal(cardView, cx, cy, initialRadius, 0.0f)
+            val anim = ViewAnimationUtils.createCircularReveal(materialCardView, cx, cy, initialRadius, 0.0f)
             anim.interpolator = AccelerateDecelerateInterpolator()
             anim.duration = duration
             anim.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
-                    cardView.visibility = View.GONE
+                    materialCardView?.visibility = View.GONE
                     searchView.visibility = View.GONE
                     listener?.onClose()
                 }
 
                 override fun onAnimationStart(animation: Animator) {
                     super.onAnimationStart(animation)
-                    editText.clearFocus()
+                    searchEditText?.clearFocus()
                 }
             })
             anim.start()
