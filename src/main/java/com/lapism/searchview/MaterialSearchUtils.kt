@@ -9,7 +9,7 @@ import android.view.View
 import androidx.core.view.ViewCompat
 
 
-object SearchUtils {
+object MaterialSearchUtils {
 
     const val SPEECH_REQUEST_CODE = 99
 

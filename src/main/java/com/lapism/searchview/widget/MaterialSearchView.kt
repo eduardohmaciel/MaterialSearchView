@@ -1,6 +1,7 @@
 package com.lapism.searchview.widget
 
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
@@ -23,7 +24,7 @@ import com.lapism.searchview.R
 import com.lapism.searchview.graphics.MaterialSearchAnimator
 import com.lapism.searchview.graphics.MaterialSearchArrowDrawable
 import com.lapism.searchview.internal.MaterialSearchEditText
-import com.lapism.searchview.internal.SearchViewSavedState
+import com.lapism.searchview.internal.MaterialSearchViewSavedState
 
 
 class MaterialSearchView @JvmOverloads constructor(
@@ -39,8 +40,6 @@ class MaterialSearchView @JvmOverloads constructor(
 
     @Logo
     private var mLogo: Int = Logo.HAMBURGER_TO_ARROW_ANIMATION
-    @Shape
-    private var mShape: Int = Shape.CLASSIC
     @Theme
     private var mTheme: Int = Theme.LIGHT
     @Version
@@ -151,7 +150,10 @@ class MaterialSearchView @JvmOverloads constructor(
             context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
 
         setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.HAMBURGER_TO_ARROW_ANIMATION))
-        setShape(typedArray.getInteger(R.styleable.MaterialSearchView_search_shape, Shape.ROUNDED))
+
+        // todo zkontrolovat zalomeni
+        setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
+
         setTheme(typedArray.getInteger(R.styleable.MaterialSearchView_search_theme, Theme.LIGHT))
         setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Version.TOOLBAR))
         setVersionMargins(
@@ -204,20 +206,6 @@ class MaterialSearchView @JvmOverloads constructor(
                 mMaterialSearchArrowDrawable = MaterialSearchArrowDrawable(context)
                 mImageViewLogo?.setImageDrawable(mMaterialSearchArrowDrawable)
             }
-        }
-    }
-
-    @Shape
-    fun getShape(): Int {
-        return mShape
-    }
-
-    fun setShape(@Shape shape: Int) {
-        mShape = shape
-
-        when (mShape) {
-            Shape.CLASSIC -> setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_classic).toFloat())
-            Shape.ROUNDED -> setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
         }
     }
 
@@ -730,7 +718,6 @@ class MaterialSearchView @JvmOverloads constructor(
 
         setMicOrClearIcon(true)
 
-
         // todo ===
         if (mVersion == Version.TOOLBAR) {
             // todo SavedState, marginy kulate a barva divideru
@@ -766,11 +753,24 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    // *****************************************************************************************************************
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+        mMaterialSearchEditText?.requestFocus(direction, previouslyFocusedRect)
+
+        return super.requestFocus(direction, previouslyFocusedRect)
+    }
+
+    override fun clearFocus() {
+        super.clearFocus()
+
+        mMaterialSearchEditText?.clearFocus()
+    }
+
+
     // todo v7 + todo tadycleanup code. projit anotace
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
-        val ss = SearchViewSavedState(superState!!)
+        val ss = MaterialSearchViewSavedState(superState!!)
         ss.hasFocus = mMaterialSearchEditText?.hasFocus()!!
         ss.shadowVisibility = mViewShadow?.visibility!!
         ss.query = mQueryText.toString()
@@ -778,7 +778,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if (state !is SearchViewSavedState) {
+        if (state !is MaterialSearchViewSavedState) {
             super.onRestoreInstanceState(state)
             return
         }
@@ -831,7 +831,7 @@ class MaterialSearchView @JvmOverloads constructor(
         return MaterialSearchBehavior()
     }
 
-    // *****************************************************************************************************************
+    // *********************************************************************************************
     interface OnLogoClickListener {
 
         fun onLogoClick()
@@ -861,7 +861,7 @@ class MaterialSearchView @JvmOverloads constructor(
         fun onQueryTextChange(newText: CharSequence?)
     }
 
-    // *****************************************************************************************************************
+    // *********************************************************************************************
     @IntDef(Logo.HAMBURGER, Logo.ARROW, Logo.HAMBURGER_TO_ARROW_ANIMATION)
     @Retention(AnnotationRetention.SOURCE)
     annotation class Logo {
@@ -869,15 +869,6 @@ class MaterialSearchView @JvmOverloads constructor(
             const val HAMBURGER = 100
             const val ARROW = 101
             const val HAMBURGER_TO_ARROW_ANIMATION = 102
-        }
-    }
-
-    @IntDef(Shape.CLASSIC, Shape.ROUNDED)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class Shape {
-        companion object {
-            const val CLASSIC = 200
-            const val ROUNDED = 201
         }
     }
 
@@ -942,11 +933,11 @@ else {
 //mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-/*setLogo(a.getInteger(R.styleable.SearchView_search_logo, SearchUtils.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION()));
-setShape(a.getInteger(R.styleable.SearchView_search_shape, SearchUtils.Shape.Companion.getCLASSIC()));
-setTheme(a.getInteger(R.styleable.SearchView_search_theme, SearchUtils.Theme.Companion.getLIGHT()));
-setVersionMargins(a.getInteger(R.styleable.SearchView_search_version_margins, SearchUtils.VersionMargins.Companion.getTOOLBAR()));
-setVersion(a.getInteger(R.styleable.SearchView_search_version, SearchUtils.Version.Companion.getTOOLBAR()));
+/*setLogo(a.getInteger(R.styleable.SearchView_search_logo, MaterialSearchUtils.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION()));
+setShape(a.getInteger(R.styleable.SearchView_search_shape, MaterialSearchUtils.Shape.Companion.getCLASSIC()));
+setTheme(a.getInteger(R.styleable.SearchView_search_theme, MaterialSearchUtils.Theme.Companion.getLIGHT()));
+setVersionMargins(a.getInteger(R.styleable.SearchView_search_version_margins, MaterialSearchUtils.VersionMargins.Companion.getTOOLBAR()));
+setVersion(a.getInteger(R.styleable.SearchView_search_version, MaterialSearchUtils.Version.Companion.getTOOLBAR()));
 
 if (a.hasValue(R.styleable.SearchView_search_logo_icon)) {
     setLogoIcon(a.getInteger(R.styleable.SearchView_search_logo_icon, 0));

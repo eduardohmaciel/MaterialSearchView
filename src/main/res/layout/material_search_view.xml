@@ -24,6 +24,7 @@
                 android:layout_height="@dimen/search_height_view"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:layoutDirection="locale"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -35,30 +36,25 @@
                     android:minWidth="@dimen/search_icon_56"
                     android:scaleType="center" />
 
-                <FrameLayout
+                <com.lapism.searchview.internal.MaterialSearchEditText
+                    android:id="@+id/search_searchEditText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@null"
+                    android:ellipsize="end"
                     android:gravity="start|center_vertical"
+                    android:imeOptions="actionSearch|flagNoExtractUi"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLines="1"
                     android:paddingStart="@dimen/search_key_line_8"
                     android:paddingLeft="@dimen/search_key_line_8"
                     android:paddingEnd="@dimen/search_key_line_8"
-                    android:paddingRight="@dimen/search_key_line_8">
-
-                    <com.lapism.searchview.internal.MaterialSearchEditText
-                        android:id="@+id/search_searchEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:ellipsize="end"
-                        android:imeOptions="actionSearch|flagNoExtractUi"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:privateImeOptions="nm"
-                        android:textSize="@dimen/search_text_16"
-                        android:windowSoftInputMode="stateAlwaysHidden" />
-
-                </FrameLayout>
+                    android:paddingRight="@dimen/search_key_line_8"
+                    android:privateImeOptions="nm"
+                    android:singleLine="true"
+                    android:textSize="@dimen/search_text_16"
+                    android:windowSoftInputMode="stateAlwaysHidden" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"

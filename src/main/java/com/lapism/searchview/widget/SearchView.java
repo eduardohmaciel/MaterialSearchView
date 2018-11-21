@@ -1,4 +1,4 @@
-package androidx.appcompat.widget;
+package com.lapism.searchview.widget;
 
 import android.app.PendingIntent;
 import android.app.SearchManager;
@@ -37,6 +37,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.R;
 import androidx.appcompat.view.CollapsibleActionView;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.SuggestionsAdapter;
+import androidx.appcompat.widget.TintTypedArray;
+import androidx.appcompat.widget.TooltipCompat;
+import androidx.appcompat.widget.ViewUtils;
 import androidx.core.view.ViewCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.customview.view.AbsSavedState;
@@ -99,20 +105,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             onItemClicked(position, KeyEvent.KEYCODE_UNKNOWN, null);
         }
     };
-    private final OnItemSelectedListener mOnItemSelectedListener = new OnItemSelectedListener() {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (DBG) Log.d(LOG_TAG, "onItemSelected() position " + position);
-            SearchView.this.onItemSelected(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            if (DBG)
-                Log.d(LOG_TAG, "onNothingSelected()");
-        }
-    };
     private OnClickListener mOnSearchClickListener;
     private boolean mIconifiedByDefault;
     private boolean mIconified;
@@ -127,22 +119,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     private boolean mExpandedInActionView;
     private int mCollapsedImeOptions;
     private Bundle mAppSearchData;
-    private final OnClickListener mOnClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (v == mSearchButton) {
-                onSearchClicked();
-            } else if (v == mCloseButton) {
-                onCloseClicked();
-            } else if (v == mGoButton) {
-                onSubmitQuery();
-            } else if (v == mVoiceButton) {
-                onVoiceClicked();
-            } else if (v == mSearchSrcTextView) {
-                forceSuggestionQuery();
-            }
-        }
-    };
     View.OnKeyListener mTextKeyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -174,38 +150,12 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             return false;
         }
     };
-    private final OnEditorActionListener mOnEditorActionListener = new OnEditorActionListener() {
-
-        /**
-         * Called when the input method default action key is pressed.
-         */
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            onSubmitQuery();
-            return true;
-        }
-    };
     private Runnable mReleaseCursorRunnable = new Runnable() {
         @Override
         public void run() {
             if (mSuggestionsAdapter instanceof SuggestionsAdapter) {
                 mSuggestionsAdapter.changeCursor(null);
             }
-        }
-    };
-    private TextWatcher mTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int before, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start,
-                                  int before, int after) {
-            SearchView.this.onTextChanged(s);
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
         }
     };
 
@@ -253,15 +203,72 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         mSuggestionRowLayout = a.getResourceId(R.styleable.SearchView_suggestionRowLayout, R.layout.abc_search_dropdown_item_icons_2line);
         mSuggestionCommitIconResId = a.getResourceId(R.styleable.SearchView_commitIcon, 0);
 
+        OnClickListener mOnClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == mSearchButton) {
+                    onSearchClicked();
+                } else if (v == mCloseButton) {
+                    onCloseClicked();
+                } else if (v == mGoButton) {
+                    onSubmitQuery();
+                } else if (v == mVoiceButton) {
+                    onVoiceClicked();
+                } else if (v == mSearchSrcTextView) {
+                    forceSuggestionQuery();
+                }
+            }
+        };
         mSearchButton.setOnClickListener(mOnClickListener);
         mCloseButton.setOnClickListener(mOnClickListener);
         mGoButton.setOnClickListener(mOnClickListener);
         mVoiceButton.setOnClickListener(mOnClickListener);
         mSearchSrcTextView.setOnClickListener(mOnClickListener);
 
+        TextWatcher mTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int before, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int after) {
+                SearchView.this.onTextChanged(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
         mSearchSrcTextView.addTextChangedListener(mTextWatcher);
+
+        OnEditorActionListener mOnEditorActionListener = new OnEditorActionListener() {
+
+            /**
+             * Called when the input method default action key is pressed.
+             */
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                onSubmitQuery();
+                return true;
+            }
+        };
         mSearchSrcTextView.setOnEditorActionListener(mOnEditorActionListener);
         mSearchSrcTextView.setOnItemClickListener(mOnItemClickListener);
+        OnItemSelectedListener mOnItemSelectedListener = new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (DBG) Log.d(LOG_TAG, "onItemSelected() position " + position);
+                SearchView.this.onItemSelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                if (DBG)
+                    Log.d(LOG_TAG, "onNothingSelected()");
+            }
+        };
         mSearchSrcTextView.setOnItemSelectedListener(mOnItemSelectedListener);
         mSearchSrcTextView.setOnKeyListener(mTextKeyListener);
 
@@ -344,8 +351,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         mVoiceButtonEnabled = hasVoiceSearch();
 
         if (mVoiceButtonEnabled) {
-            // Disable the microphone on the keyboard, as a mic is displayed near the text box
-            // TODO: use imeOptions to disable voice input when the new API will be available
             mSearchSrcTextView.setPrivateImeOptions(IME_OPTION_NO_MICROPHONE);
         }
         updateViewsVisibility(isIconified());
@@ -563,6 +568,8 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                 break;
             case MeasureSpec.UNSPECIFIED:
                 height = getPreferredHeight();
+                break;
+            case MeasureSpec.EXACTLY:
                 break;
         }
         heightMode = MeasureSpec.EXACTLY;
@@ -1140,7 +1147,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             } catch (RuntimeException e2) {
                 rowNum = -1;
             }
-            Log.w(LOG_TAG, "SearchUtils suggestions cursor at row " + rowNum + " returned exception.", e);
+            Log.w(LOG_TAG, "MaterialSearchUtils suggestions cursor at row " + rowNum + " returned exception.", e);
             return null;
         }
     }

@@ -12,7 +12,6 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
-import com.lapism.searchview.SearchUtils
 import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.widget.MaterialSearchView
 
@@ -25,7 +24,7 @@ object MaterialSearchAnimator {
         cardViewX: Int,
         duration: Long,
         materialSearchEditText: MaterialSearchEditText?,
-        listener: SearchUtils.OnOpenCloseListener?
+        listener: MaterialSearchView.OnOpenCloseListener?
     ) {
         var cx = cardViewX
         if (cx <= 0) {
@@ -71,7 +70,7 @@ object MaterialSearchAnimator {
         duration: Long,
         materialSearchEditText: MaterialSearchEditText?,
         searchView: MaterialSearchView,
-        listener: SearchUtils.OnOpenCloseListener?
+        listener: MaterialSearchView.OnOpenCloseListener?
     ) {
         var cx = cardViewX
         if (cx <= 0) {

@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchHistoryTable {
+public class MaterialSearchHistoryDao {
 
+    // MaterialSearchHistoryDatabase
     @NonNull
     private final WeakReference<Context> mContext;
 
-    public SearchHistoryTable(Context context) {
+    public MaterialSearchHistoryDao(Context context) {
         mContext = new WeakReference<>(context);
     }
 

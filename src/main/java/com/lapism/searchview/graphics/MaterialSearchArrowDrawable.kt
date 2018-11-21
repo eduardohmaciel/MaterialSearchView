@@ -46,8 +46,8 @@ class MaterialSearchArrowDrawable(context: Context) : DrawerArrowDrawable(contex
                 obj.progress = value!!
             }
 
-            override fun get(`object`: MaterialSearchArrowDrawable): Float {
-                return `object`.progress
+            override fun get(property: MaterialSearchArrowDrawable): Float {
+                return property.progress
             }
         }
     }

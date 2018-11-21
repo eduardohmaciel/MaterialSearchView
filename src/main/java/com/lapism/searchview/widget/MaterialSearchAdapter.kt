@@ -17,13 +17,13 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lapism.searchview.R
-import com.lapism.searchview.database.SearchHistoryTable
-import com.lapism.searchview.internal.SearchViewHolder
+import com.lapism.searchview.database.MaterialSearchHistoryDao
+import com.lapism.searchview.internal.MaterialSearchViewHolder
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>(), Filterable {
+class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSearchViewHolder>(), Filterable {
 
     private var mContext: WeakReference<Context>? = null
     private var mDatabase: MutableList<MaterialSearchItem>
@@ -43,13 +43,13 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewH
     private var mTitleHighlightColor: Int = 0
     private var mTextStyle = Typeface.NORMAL
     private var mTextFont = Typeface.DEFAULT
-    private val mHistoryDatabase: SearchHistoryTable
+    private val mHistoryDatabaseMaterial: MaterialSearchHistoryDao
     /// var suggestionsList: MutableList<MaterialSearchItem>
 
     init {
         mContext = WeakReference(context)
-        mHistoryDatabase = SearchHistoryTable(context)
-        mDatabase = mHistoryDatabase.allItems
+        mHistoryDatabaseMaterial = MaterialSearchHistoryDao(context)
+        mDatabase = mHistoryDatabaseMaterial.allItems
         resultsList = mDatabase// todo
         suggestionsList = ArrayList()
         setTheme(MaterialSearchView.Theme.LIGHT)
@@ -60,38 +60,38 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewH
     }
 
     // ---------------------------------------------------------------------------------------------
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MaterialSearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.material_search_item, parent, false)
-        return SearchViewHolder(view, mSearchItemClickListener)
+        return MaterialSearchViewHolder(view, mSearchItemClickListener)
     }
 
-    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holderMaterial: MaterialSearchViewHolder, position: Int) {
         val item = resultsList!![position]
 
         if (item.icon1Resource != 0) {
-            holder.icon1.setImageResource(item.icon1Resource)
-            holder.icon1.setColorFilter(mIcon1Color)
+            holderMaterial.icon1.setImageResource(item.icon1Resource)
+            holderMaterial.icon1.setColorFilter(mIcon1Color)
         } else if (item.icon1Drawable != null) {
-            holder.icon1.setImageDrawable(item.icon1Drawable)
-            holder.icon1.setColorFilter(mIcon1Color, PorterDuff.Mode.SRC_IN)
+            holderMaterial.icon1.setImageDrawable(item.icon1Drawable)
+            holderMaterial.icon1.setColorFilter(mIcon1Color, PorterDuff.Mode.SRC_IN)
         } else {
-            holder.icon1.visibility = View.GONE
+            holderMaterial.icon1.visibility = View.GONE
         }
 
         if (item.icon2Resource != 0) {
-            holder.icon2.setImageResource(item.icon2Resource)
-            holder.icon2.setColorFilter(mIcon1Color, PorterDuff.Mode.SRC_IN)
+            holderMaterial.icon2.setImageResource(item.icon2Resource)
+            holderMaterial.icon2.setColorFilter(mIcon1Color, PorterDuff.Mode.SRC_IN)
         } else if (item.icon2Drawable != null) {
-            holder.icon2.setImageDrawable(item.icon2Drawable)
-            holder.icon2.setColorFilter(mIcon2Color)
+            holderMaterial.icon2.setImageDrawable(item.icon2Drawable)
+            holderMaterial.icon2.setColorFilter(mIcon2Color)
         } else {
-            holder.icon2.visibility = View.GONE
+            holderMaterial.icon2.visibility = View.GONE
         }
 
         if (!TextUtils.isEmpty(item.title)) {
-            holder.title.typeface = Typeface.create(mTextFont, mTextStyle)
-            holder.title.setTextColor(mTitleColor)
+            holderMaterial.title.typeface = Typeface.create(mTextFont, mTextStyle)
+            holderMaterial.title.setTextColor(mTitleColor)
 
             val title = item.title!!.toString()
             val titleLower = title.toLowerCase(Locale.getDefault())
@@ -104,20 +104,20 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewH
                     titleLower.indexOf(mConstraint!!.toString()) + mConstraint!!.length,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
-                holder.title.setText(s, TextView.BufferType.SPANNABLE)
+                holderMaterial.title.setText(s, TextView.BufferType.SPANNABLE)
             } else {
-                holder.title.text = item.title
+                holderMaterial.title.text = item.title
             }
         } else {
-            holder.title.visibility = View.GONE
+            holderMaterial.title.visibility = View.GONE
         }
 
         if (!TextUtils.isEmpty(item.subtitle)) {
-            holder.subtitle.typeface = Typeface.create(mTextFont, mTextStyle)
-            holder.subtitle.setTextColor(mSubtitleColor)
-            holder.subtitle.text = item.subtitle
+            holderMaterial.subtitle.typeface = Typeface.create(mTextFont, mTextStyle)
+            holderMaterial.subtitle.setTextColor(mSubtitleColor)
+            holderMaterial.subtitle.text = item.subtitle
         } else {
-            holder.subtitle.visibility = View.GONE
+            holderMaterial.subtitle.visibility = View.GONE
         }
     }
 
@@ -202,7 +202,7 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewH
                     val results = ArrayList<MaterialSearchItem>()
 
                     mDatabase.clear()
-                    mDatabase = mHistoryDatabase.allItems
+                    mDatabase = mHistoryDatabaseMaterial.allItems
 
                     if (!mDatabase.isEmpty()) {
                         history.addAll(mDatabase)

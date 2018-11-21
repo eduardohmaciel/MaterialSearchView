@@ -7,10 +7,6 @@
             <enum name="arrow" value="101" />
             <enum name="hamburger_to_arrow_animation" value="102" />
         </attr>
-        <attr name="search_shape" format="enum">
-            <enum name="classic" value="200" />
-            <enum name="rounded" value="201" />
-        </attr>
         <attr name="search_theme" format="enum">
             <enum name="light" value="300" />
             <enum name="dark" value="301" />
@@ -25,6 +21,7 @@
         </attr>
 
         <attr name="search_shadow_color" format="color" />
+        <attr name="search_radius" format="dimension" />
     </declare-styleable>
 
 

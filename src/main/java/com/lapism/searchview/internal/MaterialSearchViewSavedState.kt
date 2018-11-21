@@ -10,7 +10,7 @@ import androidx.annotation.RestrictTo
  * @hide
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-class SearchViewSavedState(superState: Parcelable) : View.BaseSavedState(superState) {
+class MaterialSearchViewSavedState(superState: Parcelable) : View.BaseSavedState(superState) {
 
     var query: CharSequence? = null
     var hasFocus: Boolean = false

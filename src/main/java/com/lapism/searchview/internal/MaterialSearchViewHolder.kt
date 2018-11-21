@@ -8,8 +8,7 @@ import com.lapism.searchview.R
 import com.lapism.searchview.widget.MaterialSearchAdapter
 
 
-class SearchViewHolder(itemView: View, listener: MaterialSearchAdapter.OnSearchItemClickListener?) :
-    RecyclerView.ViewHolder(itemView) {
+class MaterialSearchViewHolder(itemView: View, listener: MaterialSearchAdapter.OnSearchItemClickListener?) : RecyclerView.ViewHolder(itemView) {
 
     val icon1: ImageView = itemView.findViewById(R.id.search_icon_1)
     val icon2: ImageView = itemView.findViewById(R.id.search_icon_2)
