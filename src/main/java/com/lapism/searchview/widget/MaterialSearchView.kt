@@ -151,9 +151,6 @@ class MaterialSearchView @JvmOverloads constructor(
 
         setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.HAMBURGER_TO_ARROW_ANIMATION))
 
-        // todo zkontrolovat zalomeni
-        setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
-
         setTheme(typedArray.getInteger(R.styleable.MaterialSearchView_search_theme, Theme.LIGHT))
         setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Version.TOOLBAR))
         setVersionMargins(
@@ -169,6 +166,9 @@ class MaterialSearchView @JvmOverloads constructor(
                 ContextCompat.getColor(context, R.color.search_shadow)
             )
         )
+
+        // todo zkontrolovat zalomeni
+        setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
 
         typedArray.recycle()
 
@@ -344,6 +344,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
     fun setMicColor(@ColorInt color: Int) {
         mImageViewMic?.setColorFilter(color)
+        // colorres
     }
 
     // *********************************************************************************************
@@ -629,7 +630,7 @@ class MaterialSearchView @JvmOverloads constructor(
                             )
                         }
 
-                        //mMaterialCardView?.viewTreeObserver?.removeOnGlobalLayoutListener()
+                        mMaterialCardView?.viewTreeObserver?.removeOnGlobalLayoutListener()
                     }
                 }
             }
