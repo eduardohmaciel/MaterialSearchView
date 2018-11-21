@@ -5,10 +5,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.lapism.searchview.R
-import com.lapism.searchview.widget.SearchAdapter
+import com.lapism.searchview.widget.MaterialSearchAdapter
 
 
-class SearchViewHolder(itemView: View, listener: SearchAdapter.OnSearchItemClickListener?) :
+class SearchViewHolder(itemView: View, listener: MaterialSearchAdapter.OnSearchItemClickListener?) :
     RecyclerView.ViewHolder(itemView) {
 
     val icon1: ImageView = itemView.findViewById(R.id.search_icon_1)

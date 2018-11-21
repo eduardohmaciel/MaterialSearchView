@@ -67,3 +67,13 @@
 | setSuggestionsList(List<SearchItem> suggestionsList) | ... | ... | ...
 | getResultsList() | ... | ... | ...
 | setOnSearchItemClickListener(OnSearchItemClickListener listener) | ... | ... | ...
+
+SWIPE REFRESH NASTAVIT LISTENER A BARVU
+DO DRAWABLE
+FILE PROVIDER
+LAYOUT
+child
+animace
+view tree observer
+colorres
+

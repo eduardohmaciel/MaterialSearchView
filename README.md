@@ -1,11 +1,11 @@
-# SearchBar & SearchView
+# MaterialSearchView
 
  - Material Design 
  - 3 Versions
  - History
  - Styling
 
-Material Design SearchView:  
+MaterialSearchView:  
 https://material.io/design/navigation/search.html
 
 Versions history:  
@@ -23,7 +23,7 @@ Now it works only for API 21+ and use AndroidX package system.
 Add the dependency to your gradle file:
 ```groovy
 dependencies {
-    implementation 'com.lapism:searchview:1.0.0.0.0'
+    implementation 'com.lapism:materialsearchview:1.0.0.0.0'
 }
 ```
 
@@ -33,18 +33,18 @@ dependencies {
 
 <a href="https://www.paypal.me/lapism">
   <img alt="Get it on Google Play"
-       src="https://github.com/lapism/SearchView-SearchBar/blob/master/images/donate.png" />
+       src="https://github.com/lapism/MaterialSearchView/blob/master/images/donate.png" />
 </a>
 
 ## Readme
 
-![Search](https://github.com/lapism/SearchBar-SearchView/blob/master/images/search.png)
+![Search](https://github.com/lapism/MaterialSearchView/blob/master/images/search.png)
 
-**[README for SearchView](https://github.com/lapism/SearchBar-SearchView/blob/master/README_SearchView.md)**  
+**[README for MaterialSearchView](https://github.com/lapism/MaterialSearchView/blob/master/README_MaterialSearchView.md)**  
 
-**[README for SearchAdapter](https://github.com/lapism/SearchBar-SearchView/blob/master/README_SearchAdapter.md)**  
+**[README for MaterialSearchAdapter](https://github.com/lapism/MaterialSearchView/blob/master/README_MaterialSearchAdapter.md)**  
 
-### Apps with this library
+### Apps with different versions of this library
 
 I would like to know if someone of you are using my library in your application. If yes, please send me the name of your app and link to the Play Store and I will promote your app here.
 
@@ -66,4 +66,4 @@ I would like to know if someone of you are using my library in your application.
 
 ### License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/lapism/SearchView-SearchBar/blob/master/LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/lapism/MaterialSearchView/blob/master/LICENSE) file for details.

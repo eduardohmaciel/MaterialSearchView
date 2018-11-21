@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 
 
-class SearchBehavior : CoordinatorLayout.Behavior<MaterialSearchView> {
+class MaterialSearchBehavior : CoordinatorLayout.Behavior<MaterialSearchView> {
 
     constructor()
 

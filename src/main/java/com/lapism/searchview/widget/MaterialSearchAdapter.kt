@@ -23,13 +23,13 @@ import java.lang.ref.WeakReference
 import java.util.*
 
 
-class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>(), Filterable {
+class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>(), Filterable {
 
     private var mContext: WeakReference<Context>? = null
-    private var mDatabase: MutableList<SearchItem>
+    private var mDatabase: MutableList<MaterialSearchItem>
     private var mConstraint: CharSequence? = null
-    private var suggestionsList: List<SearchItem>? = null
-    private var resultsList: List<SearchItem>? = null
+    private var suggestionsList: List<MaterialSearchItem>? = null
+    private var resultsList: List<MaterialSearchItem>? = null
     private var mSearchItemClickListener: OnSearchItemClickListener? = null
     @ColorInt
     private var mIcon1Color: Int = 0
@@ -44,7 +44,7 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     private var mTextStyle = Typeface.NORMAL
     private var mTextFont = Typeface.DEFAULT
     private val mHistoryDatabase: SearchHistoryTable
-    /// var suggestionsList: MutableList<SearchItem>
+    /// var suggestionsList: MutableList<MaterialSearchItem>
 
     init {
         mContext = WeakReference(context)
@@ -55,14 +55,14 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
         setTheme(MaterialSearchView.Theme.LIGHT)
     }
 
-    fun setSuggestionsList(suggestionsList: List<SearchItem>) {
+    fun setSuggestionsList(suggestionsList: List<MaterialSearchItem>) {
         this.suggestionsList = suggestionsList
     }
 
     // ---------------------------------------------------------------------------------------------
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.search_item, parent, false)
+        val view = inflater.inflate(R.layout.material_search_item, parent, false)
         return SearchViewHolder(view, mSearchItemClickListener)
     }
 
@@ -184,7 +184,7 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     }
 
     // ---------------------------------------------------------------------------------------------
-    private fun setData(data: List<SearchItem>) {
+    private fun setData(data: List<MaterialSearchItem>) {
         resultsList = data
         notifyDataSetChanged() // todo notifyDataInserted
     }
@@ -198,8 +198,8 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
                 mConstraint = constraint.toString().toLowerCase(Locale.getDefault())
 
                 if (!TextUtils.isEmpty(mConstraint)) {
-                    val history = ArrayList<SearchItem>()
-                    val results = ArrayList<SearchItem>()
+                    val history = ArrayList<MaterialSearchItem>()
+                    val results = ArrayList<MaterialSearchItem>()
 
                     mDatabase.clear()
                     mDatabase = mHistoryDatabase.allItems
@@ -231,13 +231,13 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
 
             override fun publishResults(constraint: CharSequence, results: Filter.FilterResults) {
                 if (results.count > 0) {
-                    val dataSet = ArrayList<SearchItem>()
+                    val dataSet = ArrayList<MaterialSearchItem>()
                     val resultSet = results.values as List<*>
                     val size = if (results.count < 8) results.count else 8
 
                     for (i in 0 until size) {
-                        if (resultSet[i] is SearchItem) {
-                            dataSet.add(resultSet[i] as SearchItem)
+                        if (resultSet[i] is MaterialSearchItem) {
+                            dataSet.add(resultSet[i] as MaterialSearchItem)
                         }
                     }
 

@@ -20,9 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
-import com.lapism.searchview.graphics.SearchAnimator
-import com.lapism.searchview.graphics.SearchArrowDrawable
-import com.lapism.searchview.internal.SearchEditText
+import com.lapism.searchview.graphics.MaterialSearchAnimator
+import com.lapism.searchview.graphics.MaterialSearchArrowDrawable
+import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.internal.SearchViewSavedState
 
 
@@ -62,8 +62,8 @@ class MaterialSearchView @JvmOverloads constructor(
     private var mImageViewMic: ImageView? = null
     private var mImageViewClear: ImageView? = null
     private var mImageViewMenu: ImageView? = null
-    private var mSearchEditText: SearchEditText? = null
-    private var mSearchArrowDrawable: SearchArrowDrawable? = null
+    private var mMaterialSearchEditText: MaterialSearchEditText? = null
+    private var mMaterialSearchArrowDrawable: MaterialSearchArrowDrawable? = null
     private var mRecyclerView: RecyclerView? = null
     private var mMaterialCardView: MaterialCardView? = null
 
@@ -77,7 +77,7 @@ class MaterialSearchView @JvmOverloads constructor(
         // TODO chose let or .... JETPACK KTX ROOM
         // TODO PROJIT SEARCHVIEW V7 METODY A INTERFACES
         // TODO ROOM, LINT, SWIPERFESH, CHILD PARAMETR, ANIMACE, PROMENNE GRADLE // OVERRDES A DO KOTLINU A UPRAVIT KOTLINPROJITsearch_{
-        inflate(context, R.layout.search_view_material, this)
+        inflate(context, R.layout.material_search_view, this)
 
         mViewShadow = findViewById(R.id.search_view_shadow)
         mViewShadow?.visibility = View.GONE
@@ -103,9 +103,9 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewMenu?.visibility = View.GONE
         mImageViewMenu?.setOnClickListener(this)
 
-        mSearchEditText = findViewById(R.id.search_searchEditText)
-        mSearchEditText?.setSearchView(this)
-        mSearchEditText?.addTextChangedListener(object : TextWatcher {
+        mMaterialSearchEditText = findViewById(R.id.search_searchEditText)
+        mMaterialSearchEditText?.setSearchView(this)
+        mMaterialSearchEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -118,11 +118,11 @@ class MaterialSearchView @JvmOverloads constructor(
                 onTextChanged(s)
             }
         })
-        mSearchEditText?.setOnEditorActionListener { _, _, _ ->
+        mMaterialSearchEditText?.setOnEditorActionListener { _, _, _ ->
             onSubmitQuery()
             true
         }
-        mSearchEditText?.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+        mMaterialSearchEditText?.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 addFocus()
             } else {
@@ -201,8 +201,8 @@ class MaterialSearchView @JvmOverloads constructor(
                 )
             }
             Logo.HAMBURGER_TO_ARROW_ANIMATION -> {
-                mSearchArrowDrawable = SearchArrowDrawable(context)
-                mImageViewLogo?.setImageDrawable(mSearchArrowDrawable)
+                mMaterialSearchArrowDrawable = MaterialSearchArrowDrawable(context)
+                mImageViewLogo?.setImageDrawable(mMaterialSearchArrowDrawable)
             }
         }
     }
@@ -227,7 +227,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     // TODO colorres a color int
-
+    // todo companion object ===, ::, striska erovn a se, ?:,
     fun setTheme(@Theme theme: Int) {
         mTheme = theme
 
@@ -386,13 +386,13 @@ class MaterialSearchView @JvmOverloads constructor(
 
     // *********************************************************************************************
     fun getQuery(): Editable? {
-        return mSearchEditText?.text
+        return mMaterialSearchEditText?.text
     }
 
     fun setQuery(query: CharSequence?, submit: Boolean) {
-        mSearchEditText?.setText(query)
+        mMaterialSearchEditText?.setText(query)
         if (query != null) {
-            mSearchEditText?.setSelection(mSearchEditText?.length()!!)
+            mMaterialSearchEditText?.setSelection(mMaterialSearchEditText?.length()!!)
             mQueryText = query
         }
 
@@ -402,9 +402,9 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     fun setQuery(@StringRes query: Int, submit: Boolean) {
-        mSearchEditText?.setText(query)
+        mMaterialSearchEditText?.setText(query)
         if (query != 0) {
-            mSearchEditText?.setSelection(mSearchEditText?.length()!!)
+            mMaterialSearchEditText?.setSelection(mMaterialSearchEditText?.length()!!)
             mQueryText = query.toString()
         }
 
@@ -414,47 +414,47 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     fun getText(): Editable? {
-        return mSearchEditText?.text
+        return mMaterialSearchEditText?.text
     }
 
     fun setText(@StringRes text: Int) {
-        mSearchEditText?.setText(text)
+        mMaterialSearchEditText?.setText(text)
     }
 
     fun setText(text: CharSequence) {
-        mSearchEditText?.setText(text)
+        mMaterialSearchEditText?.setText(text)
     }
 
     fun setTextColor(@ColorInt color: Int) {
-        mSearchEditText?.setTextColor(color)
+        mMaterialSearchEditText?.setTextColor(color)
     }
 
     fun setTextSize(size: Float) {
-        mSearchEditText?.textSize = size
+        mMaterialSearchEditText?.textSize = size
     }
 
     fun setTextGravity(gravity: Int) {
-        mSearchEditText?.gravity = gravity
+        mMaterialSearchEditText?.gravity = gravity
     }
 
     fun setTextImeOptions(imeOptions: Int) {
-        mSearchEditText?.imeOptions = imeOptions
+        mMaterialSearchEditText?.imeOptions = imeOptions
     }
 
     fun setTextInputType(inputType: Int) {
-        mSearchEditText?.inputType = inputType
+        mMaterialSearchEditText?.inputType = inputType
     }
 
     fun setHint(hint: CharSequence?) {
-        mSearchEditText?.hint = hint
+        mMaterialSearchEditText?.hint = hint
     }
 
     fun setHint(@StringRes hint: Int) {
-        mSearchEditText?.setHint(hint)
+        mMaterialSearchEditText?.setHint(hint)
     }
 
     fun setHintColor(@ColorInt color: Int) {
-        mSearchEditText?.setHintTextColor(color)
+        mMaterialSearchEditText?.setHintTextColor(color)
     }
 
     /**
@@ -465,7 +465,7 @@ class MaterialSearchView @JvmOverloads constructor(
      */
     fun setTextStyle(style: Int) {
         mTextStyle = style
-        mSearchEditText?.typeface = Typeface.create(mTextFont, mTextStyle)
+        mMaterialSearchEditText?.typeface = Typeface.create(mTextFont, mTextStyle)
     }
 
     /**
@@ -477,7 +477,7 @@ class MaterialSearchView @JvmOverloads constructor(
      */
     fun setTextFont(font: Typeface) {
         mTextFont = font
-        mSearchEditText?.typeface = Typeface.create(mTextFont, mTextStyle)
+        mMaterialSearchEditText?.typeface = Typeface.create(mTextFont, mTextStyle)
     }
 
     // *********************************************************************************************
@@ -562,7 +562,7 @@ class MaterialSearchView @JvmOverloads constructor(
     private fun showKeyboard() {
         if (!isInEditMode) {
             val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.showSoftInput(mSearchEditText, 0)
+            inputMethodManager.showSoftInput(mMaterialSearchEditText, 0)
         }
     }
 
@@ -620,7 +620,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mMenuItem = menuItem
 
         when (mVersion) {
-            Version.TOOLBAR -> mSearchEditText?.requestFocus()
+            Version.TOOLBAR -> mMaterialSearchEditText?.requestFocus()
             Version.MENU_ITEM -> {
                 visibility = View.VISIBLE
                 /*if (mMenuItem != null) {
@@ -631,12 +631,12 @@ class MaterialSearchView @JvmOverloads constructor(
                     if (it.isAlive) {
                         it.addOnGlobalLayoutListener {
                             // TODO companion object + ?
-                            SearchAnimator.revealOpen(
+                            MaterialSearchAnimator.revealOpen(
                                 context,
                                 mMaterialCardView,
                                 mMenuItemCx,
                                 mAnimationDuration,
-                                mSearchEditText,
+                                mMaterialSearchEditText,
                                 mOnOpenCloseListener
                             )
                         }
@@ -650,17 +650,17 @@ class MaterialSearchView @JvmOverloads constructor(
 
     fun close() {
         when (mVersion) {
-            Version.TOOLBAR -> mSearchEditText?.clearFocus()
+            Version.TOOLBAR -> mMaterialSearchEditText?.clearFocus()
             Version.MENU_ITEM -> {
                 /*if (mMenuItem != null) {
                     getMenuItemPosition(mMenuItem.getItemId())
                 }*/
-                SearchAnimator.revealClose(
+                MaterialSearchAnimator.revealClose(
                     context,
                     mMaterialCardView,
                     mMenuItemCx,
                     mAnimationDuration,
-                    mSearchEditText,
+                    mMaterialSearchEditText,
                     this@MaterialSearchView,
                     mOnOpenCloseListener
                 )
@@ -698,10 +698,10 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     private fun onSubmitQuery() {
-        val query = mSearchEditText?.getText()
+        val query = mMaterialSearchEditText?.getText()
         if (query != null && TextUtils.getTrimmedLength(query) > 0) {
             if (mOnQueryTextListener == null || !mOnQueryTextListener!!.onQueryTextSubmit(query.toString())) {
-                mSearchEditText?.text = query
+                mMaterialSearchEditText?.text = query
             }
         }
     }
@@ -721,11 +721,11 @@ class MaterialSearchView @JvmOverloads constructor(
         filter(mQueryText)
 
         if (mViewShadow?.visibility == View.GONE) {
-            SearchAnimator.fadeOpen(mViewShadow!!, mAnimationDuration)
+            MaterialSearchAnimator.fadeOpen(mViewShadow!!, mAnimationDuration)
         }
 
-        if (mSearchArrowDrawable != null) {
-            mSearchArrowDrawable?.animate(SearchArrowDrawable.STATE_ARROW, mAnimationDuration)
+        if (mMaterialSearchArrowDrawable != null) {
+            mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_ARROW, mAnimationDuration)
         }
 
         setMicOrClearIcon(true)
@@ -745,11 +745,11 @@ class MaterialSearchView @JvmOverloads constructor(
     private fun removeFocus() {
 
         if (mViewShadow?.visibility == View.VISIBLE) {
-            SearchAnimator.fadeClose(mViewShadow!!, mAnimationDuration)
+            MaterialSearchAnimator.fadeClose(mViewShadow!!, mAnimationDuration)
         }
 
-        if (mSearchArrowDrawable != null) {
-            mSearchArrowDrawable?.animate(SearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
+        if (mMaterialSearchArrowDrawable != null) {
+            mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
         }
 
         // todo error + shadow error pri otoceni, pak mizi animace
@@ -771,7 +771,7 @@ class MaterialSearchView @JvmOverloads constructor(
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
         val ss = SearchViewSavedState(superState!!)
-        ss.hasFocus = mSearchEditText?.hasFocus()!!
+        ss.hasFocus = mMaterialSearchEditText?.hasFocus()!!
         ss.shadowVisibility = mViewShadow?.visibility!!
         ss.query = mQueryText.toString()
         return ss
@@ -795,7 +795,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
     override fun onClick(v: View?) {
         if (v == mImageViewLogo) {
-            if (mSearchEditText?.hasFocus()!!) {
+            if (mMaterialSearchEditText?.hasFocus()!!) {
                 close()
             } else {
                 if (mOnLogoClickListener != null) {
@@ -807,8 +807,8 @@ class MaterialSearchView @JvmOverloads constructor(
                 mOnMicClickListener!!.onMicClick()
             }
         } else if (v == mImageViewClear) {
-            if (mSearchEditText?.length()!! > 0) {
-                mSearchEditText?.text!!.clear()
+            if (mMaterialSearchEditText?.length()!! > 0) {
+                mMaterialSearchEditText?.text!!.clear()
             }
         } else if (v == mImageViewMenu) {
             if (mOnMenuClickListener != null) {
@@ -828,7 +828,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        return SearchBehavior()
+        return MaterialSearchBehavior()
     }
 
     // *****************************************************************************************************************

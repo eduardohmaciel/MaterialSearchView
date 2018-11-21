@@ -13,18 +13,18 @@ import android.view.animation.Animation
 import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
 import com.lapism.searchview.SearchUtils
-import com.lapism.searchview.internal.SearchEditText
+import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.widget.MaterialSearchView
 
 // todo companion object
-object SearchAnimator {
+object MaterialSearchAnimator {
 
     fun revealOpen(
         context: Context,
         materialCardView: MaterialCardView?,
         cardViewX: Int,
         duration: Long,
-        searchEditText: SearchEditText?,
+        materialSearchEditText: MaterialSearchEditText?,
         listener: SearchUtils.OnOpenCloseListener?
     ) {
         var cx = cardViewX
@@ -51,7 +51,7 @@ object SearchAnimator {
             anim.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
-                    searchEditText?.requestFocus()
+                    materialSearchEditText?.requestFocus()
                 }
 
                 override fun onAnimationStart(animation: Animator) {
@@ -69,7 +69,7 @@ object SearchAnimator {
         materialCardView: MaterialCardView?,
         cardViewX: Int,
         duration: Long,
-        searchEditText: SearchEditText?,
+        materialSearchEditText: MaterialSearchEditText?,
         searchView: MaterialSearchView,
         listener: SearchUtils.OnOpenCloseListener?
     ) {
@@ -104,7 +104,7 @@ object SearchAnimator {
 
                 override fun onAnimationStart(animation: Animator) {
                     super.onAnimationStart(animation)
-                    searchEditText?.clearFocus()
+                    materialSearchEditText?.clearFocus()
                 }
             })
             anim.start()

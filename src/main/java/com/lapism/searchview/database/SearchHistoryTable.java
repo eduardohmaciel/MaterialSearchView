@@ -2,7 +2,7 @@ package com.lapism.searchview.database;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-import com.lapism.searchview.widget.SearchItem;
+import com.lapism.searchview.widget.MaterialSearchItem;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ public class SearchHistoryTable {
         mContext = new WeakReference<>(context);
     }
 
-    public void addItem(@NonNull SearchItem item) {
+    public void addItem(@NonNull MaterialSearchItem item) {
 
     }
 
-    public List<SearchItem> getAllItems() {
+    public List<MaterialSearchItem> getAllItems() {
         return new ArrayList<>();
     }
 

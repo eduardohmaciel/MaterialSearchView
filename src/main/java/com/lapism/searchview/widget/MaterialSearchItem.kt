@@ -9,7 +9,7 @@ import android.os.Parcelable
 import android.text.TextUtils
 
 
-class SearchItem : Parcelable {
+class MaterialSearchItem : Parcelable {
 
     var icon1Drawable: Drawable? = null
     var icon2Drawable: Drawable? = null
@@ -56,12 +56,12 @@ class SearchItem : Parcelable {
     companion object {
 
         @JvmField
-        val CREATOR: Parcelable.Creator<SearchItem> = object : Parcelable.Creator<SearchItem> {
-            override fun createFromParcel(parcel: Parcel): SearchItem {
-                return SearchItem(parcel)
+        val CREATOR: Parcelable.Creator<MaterialSearchItem> = object : Parcelable.Creator<MaterialSearchItem> {
+            override fun createFromParcel(parcel: Parcel): MaterialSearchItem {
+                return MaterialSearchItem(parcel)
             }
 
-            override fun newArray(size: Int): Array<SearchItem?> {
+            override fun newArray(size: Int): Array<MaterialSearchItem?> {
                 return arrayOfNulls(size)
             }
         }

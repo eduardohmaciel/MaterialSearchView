@@ -25,7 +25,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/search_behavior"
     <!-- or -->
-    app:layout_behavior="com.lapism.searchview.widget.SearchBehavior" />
+    app:layout_behavior="com.lapism.searchview.widget.MaterialSearchBehavior" />
 ```
 
 # XML attributes

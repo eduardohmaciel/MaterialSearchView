@@ -8,7 +8,7 @@ import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.content.ContextCompat
 
 
-class SearchArrowDrawable(context: Context) : DrawerArrowDrawable(context) {
+class MaterialSearchArrowDrawable(context: Context) : DrawerArrowDrawable(context) {
 
     var position: Float
         get() = progress
@@ -41,12 +41,12 @@ class SearchArrowDrawable(context: Context) : DrawerArrowDrawable(context) {
         const val STATE_HAMBURGER = 0.0f
         const val STATE_ARROW = 1.0f
 
-        private val PROGRESS = object : Property<SearchArrowDrawable, Float>(Float::class.java, "progress") {
-            override fun set(obj: SearchArrowDrawable, value: Float?) {
+        private val PROGRESS = object : Property<MaterialSearchArrowDrawable, Float>(Float::class.java, "progress") {
+            override fun set(obj: MaterialSearchArrowDrawable, value: Float?) {
                 obj.progress = value!!
             }
 
-            override fun get(`object`: SearchArrowDrawable): Float {
+            override fun get(`object`: MaterialSearchArrowDrawable): Float {
                 return `object`.progress
             }
         }

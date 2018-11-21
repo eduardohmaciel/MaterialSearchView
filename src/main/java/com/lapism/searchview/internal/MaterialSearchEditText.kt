@@ -9,7 +9,7 @@ import com.lapism.searchview.widget.MaterialSearchView
 
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-class SearchEditText : AppCompatEditText {
+class MaterialSearchEditText : AppCompatEditText {
 
     private var mMaterialSearchView: MaterialSearchView? = null
 

@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 
 object SearchUtils {
 
-    // todo companion object ===, ::, striska erovn a se, ?:,
     const val SPEECH_REQUEST_CODE = 99
 
     fun isLayoutRtl(view: View): Boolean {
