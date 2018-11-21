@@ -12,7 +12,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
-import com.lapism.searchview.Search
+import com.lapism.searchview.SearchUtils
 import com.lapism.searchview.internal.SearchEditText
 import com.lapism.searchview.widget.MaterialSearchView
 
@@ -20,12 +20,13 @@ import com.lapism.searchview.widget.MaterialSearchView
 object SearchAnimator {
 
     fun revealOpen(
-            context: Context,
-            materialCardView: MaterialCardView?,
-            cardViewX: Int,
-            duration: Long,
-            searchEditText: SearchEditText?,
-            listener: Search.OnOpenCloseListener?) {
+        context: Context,
+        materialCardView: MaterialCardView?,
+        cardViewX: Int,
+        duration: Long,
+        searchEditText: SearchEditText?,
+        listener: SearchUtils.OnOpenCloseListener?
+    ) {
         var cx = cardViewX
         if (cx <= 0) {
             val padding = context.resources.getDimensionPixelSize(R.dimen.search_reveal)
@@ -64,13 +65,14 @@ object SearchAnimator {
     }
 
     fun revealClose(
-            context: Context,
-            materialCardView: MaterialCardView?,
-            cardViewX: Int,
-            duration: Long,
-            searchEditText: SearchEditText?,
-            searchView: MaterialSearchView,
-            listener: Search.OnOpenCloseListener?) {
+        context: Context,
+        materialCardView: MaterialCardView?,
+        cardViewX: Int,
+        duration: Long,
+        searchEditText: SearchEditText?,
+        searchView: MaterialSearchView,
+        listener: SearchUtils.OnOpenCloseListener?
+    ) {
         var cx = cardViewX
         if (cx <= 0) {
             val padding = context.resources.getDimensionPixelSize(R.dimen.search_reveal)

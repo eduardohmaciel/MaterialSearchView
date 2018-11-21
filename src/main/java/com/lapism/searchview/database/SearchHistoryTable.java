@@ -1,14 +1,12 @@
 package com.lapism.searchview.database;
 
 import android.content.Context;
-
+import androidx.annotation.NonNull;
 import com.lapism.searchview.widget.SearchItem;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 
 public class SearchHistoryTable {
@@ -25,7 +23,7 @@ public class SearchHistoryTable {
     }
 
     public List<SearchItem> getAllItems() {
-        return  new ArrayList<>();
+        return new ArrayList<>();
     }
 
     public void clearDatabase() {

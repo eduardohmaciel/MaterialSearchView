@@ -12,19 +12,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.annotation.ColorInt
-import androidx.annotation.Dimension
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
-import com.lapism.searchview.Search
 import com.lapism.searchview.graphics.SearchAnimator
 import com.lapism.searchview.graphics.SearchArrowDrawable
 import com.lapism.searchview.internal.SearchEditText
@@ -32,25 +27,26 @@ import com.lapism.searchview.internal.SearchViewSavedState
 
 
 class MaterialSearchView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0,
-        defStyleRes: Int = 0) :
-        FrameLayout(context, attrs, defStyleAttr, defStyleRes),
-        View.OnClickListener,
-        Filter.FilterListener,
-        CoordinatorLayout.AttachedBehavior {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
+) :
+    FrameLayout(context, attrs, defStyleAttr, defStyleRes),
+    View.OnClickListener,
+    Filter.FilterListener,
+    CoordinatorLayout.AttachedBehavior {
 
-    @Search.Logo
-    private var mLogo: Int = Search.Logo.HAMBURGER_TO_ARROW_ANIMATION
-    @Search.Shape
-    private var mShape: Int = Search.Shape.CLASSIC
-    @Search.Theme
-    private var mTheme: Int = Search.Theme.LIGHT
-    @Search.Version
-    private var mVersion: Int = Search.Version.TOOLBAR
-    @Search.VersionMargins
-    private var mVersionMargins: Int = Search.VersionMargins.TOOLBAR
+    @Logo
+    private var mLogo: Int = Logo.HAMBURGER_TO_ARROW_ANIMATION
+    @Shape
+    private var mShape: Int = Shape.CLASSIC
+    @Theme
+    private var mTheme: Int = Theme.LIGHT
+    @Version
+    private var mVersion: Int = Version.TOOLBAR
+    @VersionMargins
+    private var mVersionMargins: Int = VersionMargins.TOOLBAR
     private var mTextStyle = Typeface.NORMAL
     private var mTextFont = Typeface.DEFAULT
     private var mAnimationDuration: Long = 300L
@@ -71,11 +67,11 @@ class MaterialSearchView @JvmOverloads constructor(
     private var mRecyclerView: RecyclerView? = null
     private var mMaterialCardView: MaterialCardView? = null
 
-    private var mOnLogoClickListener: Search.OnLogoClickListener? = null
-    private var mOnMicClickListener: Search.OnMicClickListener? = null
-    private var mOnMenuClickListener: Search.OnMenuClickListener? = null
-    private var mOnOpenCloseListener: Search.OnOpenCloseListener? = null
-    private var mOnQueryTextListener: Search.OnQueryTextListener? = null
+    private var mOnLogoClickListener: OnLogoClickListener? = null
+    private var mOnMicClickListener: OnMicClickListener? = null
+    private var mOnMenuClickListener: OnMenuClickListener? = null
+    private var mOnOpenCloseListener: OnOpenCloseListener? = null
+    private var mOnQueryTextListener: OnQueryTextListener? = null
 
     init {
         // TODO chose let or .... JETPACK KTX ROOM
@@ -151,15 +147,26 @@ class MaterialSearchView @JvmOverloads constructor(
 
         mMaterialCardView = findViewById(R.id.search_materialCardView)
 
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
 
-        setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Search.Logo.HAMBURGER_TO_ARROW_ANIMATION))
-        setShape(typedArray.getInteger(R.styleable.MaterialSearchView_search_shape, Search.Shape.ROUNDED))
-        setTheme(typedArray.getInteger(R.styleable.MaterialSearchView_search_theme, Search.Theme.LIGHT))
-        setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Search.Version.TOOLBAR))
-        setVersionMargins(typedArray.getInteger(R.styleable.MaterialSearchView_search_version_margins, Search.VersionMargins.TOOLBAR))
+        setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.HAMBURGER_TO_ARROW_ANIMATION))
+        setShape(typedArray.getInteger(R.styleable.MaterialSearchView_search_shape, Shape.ROUNDED))
+        setTheme(typedArray.getInteger(R.styleable.MaterialSearchView_search_theme, Theme.LIGHT))
+        setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Version.TOOLBAR))
+        setVersionMargins(
+            typedArray.getInteger(
+                R.styleable.MaterialSearchView_search_version_margins,
+                VersionMargins.TOOLBAR
+            )
+        )
 
-        setShadowColor(typedArray.getColor(R.styleable.MaterialSearchView_search_shadow_color, ContextCompat.getColor(context, R.color.search_shadow)))
+        setShadowColor(
+            typedArray.getColor(
+                R.styleable.MaterialSearchView_search_shadow_color,
+                ContextCompat.getColor(context, R.color.search_shadow)
+            )
+        )
 
         typedArray.recycle()
 
@@ -168,62 +175,64 @@ class MaterialSearchView @JvmOverloads constructor(
         // LAYOUT, FILE PROVIDER, IKONKY, ATD... barvy ...            <!-- ?android:attr/listDivider never-->
     }
 
-    @Search.Logo
+    @Logo
     fun getLogo(): Int {
         return mLogo
     }
 
-    fun setLogo(@Search.Logo logo: Int) {
+    fun setLogo(@Logo logo: Int) {
         mLogo = logo
 
         when (mLogo) {
-            Search.Logo.HAMBURGER -> {
+            Logo.HAMBURGER -> {
                 mImageViewLogo?.setImageDrawable(
-                        ContextCompat.getDrawable(
-                                context,
-                                R.drawable.search_ic_outline_menu_24px
-                        )
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.search_ic_outline_menu_24px
+                    )
                 )
             }
-            Search.Logo.ARROW -> {
+            Logo.ARROW -> {
                 mImageViewLogo?.setImageDrawable(
-                        ContextCompat.getDrawable(
-                                context,
-                                R.drawable.search_ic_outline_arrow_back_24px
-                        )
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.search_ic_outline_arrow_back_24px
+                    )
                 )
             }
-            Search.Logo.HAMBURGER_TO_ARROW_ANIMATION -> {
+            Logo.HAMBURGER_TO_ARROW_ANIMATION -> {
                 mSearchArrowDrawable = SearchArrowDrawable(context)
                 mImageViewLogo?.setImageDrawable(mSearchArrowDrawable)
             }
         }
     }
 
-    @Search.Shape
+    @Shape
     fun getShape(): Int {
         return mShape
     }
 
-    fun setShape(@Search.Shape shape: Int) {
+    fun setShape(@Shape shape: Int) {
         mShape = shape
 
         when (mShape) {
-            Search.Shape.CLASSIC -> setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_classic).toFloat())
-            Search.Shape.ROUNDED -> setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
+            Shape.CLASSIC -> setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_classic).toFloat())
+            Shape.ROUNDED -> setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
         }
     }
 
-    @Search.Theme
+    @Theme
     fun getTheme(): Int {
         return mTheme
     }
 
-    fun setTheme(@Search.Theme theme: Int) {
+    // TODO colorres a color int
+
+    fun setTheme(@Theme theme: Int) {
         mTheme = theme
 
         when (mTheme) {
-            Search.Theme.LIGHT -> {
+            Theme.LIGHT -> {
                 setBackgroundColor(ContextCompat.getColor(context, R.color.search_light_background))
                 setDividerColor(ContextCompat.getColor(context, R.color.search_light_divider))
                 setLogoColor(ContextCompat.getColor(context, R.color.search_light_icon))
@@ -233,7 +242,7 @@ class MaterialSearchView @JvmOverloads constructor(
                 setHintColor(ContextCompat.getColor(context, R.color.search_light_hint))
                 setTextColor(ContextCompat.getColor(context, R.color.search_light_title))
             }
-            Search.Theme.DARK -> {
+            Theme.DARK -> {
                 setBackgroundColor(ContextCompat.getColor(context, R.color.search_dark_background))
                 setDividerColor(ContextCompat.getColor(context, R.color.search_dark_divider))
                 setLogoColor(ContextCompat.getColor(context, R.color.search_dark_icon))
@@ -246,26 +255,26 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    @Search.Version
+    @Version
     fun getVersion(): Int {
         return mVersion
     }
 
-    fun setVersion(@Search.Version version: Int) {
+    fun setVersion(@Version version: Int) {
         mVersion = version
 
         when (mVersion) {
-            Search.Version.TOOLBAR -> visibility = View.VISIBLE
-            Search.Version.MENU_ITEM -> visibility = View.GONE
+            Version.TOOLBAR -> visibility = View.VISIBLE
+            Version.MENU_ITEM -> visibility = View.GONE
         }
     }
 
-    @Search.VersionMargins
+    @VersionMargins
     fun getVersionMargins(): Int {
         return mVersionMargins
     }
 
-    fun setVersionMargins(@Search.VersionMargins versionMargins: Int) {
+    fun setVersionMargins(@VersionMargins versionMargins: Int) {
         mVersionMargins = versionMargins
 
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -275,7 +284,7 @@ class MaterialSearchView @JvmOverloads constructor(
         val bottom: Int
 
         when (mVersionMargins) {
-            Search.VersionMargins.TOOLBAR -> {
+            VersionMargins.TOOLBAR -> {
                 left = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
                 top = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
                 right = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
@@ -284,7 +293,7 @@ class MaterialSearchView @JvmOverloads constructor(
                 params.setMargins(left, top, right, bottom)
                 mMaterialCardView?.layoutParams = params
             }
-            Search.VersionMargins.MENU_ITEM -> {
+            VersionMargins.MENU_ITEM -> {
                 left = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
                 top = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
                 right = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
@@ -519,11 +528,11 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     // *********************************************************************************************
-    fun setOnLogoClickListener(listener: Search.OnLogoClickListener) {
+    fun setOnLogoClickListener(listener: OnLogoClickListener) {
         mOnLogoClickListener = listener
     }
 
-    fun setOnMicClickListener(listener: Search.OnMicClickListener) {
+    fun setOnMicClickListener(listener: OnMicClickListener) {
         mOnMicClickListener = listener
         if (mOnMicClickListener != null) {
             mImageViewMic?.visibility = View.VISIBLE
@@ -532,7 +541,7 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    fun setOnMenuClickListener(listener: Search.OnMenuClickListener) {
+    fun setOnMenuClickListener(listener: OnMenuClickListener) {
         mOnMenuClickListener = listener
         if (mOnMenuClickListener != null) {
             mImageViewMenu?.visibility = View.VISIBLE
@@ -541,11 +550,11 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    fun setOnOpenCloseListener(listener: Search.OnOpenCloseListener) {
+    fun setOnOpenCloseListener(listener: OnOpenCloseListener) {
         mOnOpenCloseListener = listener
     }
 
-    fun setOnQueryTextListener(listener: Search.OnQueryTextListener) {
+    fun setOnQueryTextListener(listener: OnQueryTextListener) {
         mOnQueryTextListener = listener
     }
 
@@ -611,8 +620,8 @@ class MaterialSearchView @JvmOverloads constructor(
         mMenuItem = menuItem
 
         when (mVersion) {
-            Search.Version.TOOLBAR -> mSearchEditText?.requestFocus()
-            Search.Version.MENU_ITEM -> {
+            Version.TOOLBAR -> mSearchEditText?.requestFocus()
+            Version.MENU_ITEM -> {
                 visibility = View.VISIBLE
                 /*if (mMenuItem != null) {
                     getMenuItemPosition(mMenuItem.getItemId())
@@ -623,12 +632,13 @@ class MaterialSearchView @JvmOverloads constructor(
                         it.addOnGlobalLayoutListener {
                             // TODO companion object + ?
                             SearchAnimator.revealOpen(
-                                    context,
-                                    mMaterialCardView,
-                                    mMenuItemCx,
-                                    mAnimationDuration,
-                                    mSearchEditText,
-                                    mOnOpenCloseListener)
+                                context,
+                                mMaterialCardView,
+                                mMenuItemCx,
+                                mAnimationDuration,
+                                mSearchEditText,
+                                mOnOpenCloseListener
+                            )
                         }
 
                         //mMaterialCardView?.viewTreeObserver?.removeOnGlobalLayoutListener()
@@ -640,19 +650,20 @@ class MaterialSearchView @JvmOverloads constructor(
 
     fun close() {
         when (mVersion) {
-            Search.Version.TOOLBAR -> mSearchEditText?.clearFocus()
-            Search.Version.MENU_ITEM -> {
+            Version.TOOLBAR -> mSearchEditText?.clearFocus()
+            Version.MENU_ITEM -> {
                 /*if (mMenuItem != null) {
                     getMenuItemPosition(mMenuItem.getItemId())
                 }*/
                 SearchAnimator.revealClose(
-                        context,
-                        mMaterialCardView,
-                        mMenuItemCx,
-                        mAnimationDuration,
-                        mSearchEditText,
-                        this@MaterialSearchView,
-                        mOnOpenCloseListener)
+                    context,
+                    mMaterialCardView,
+                    mMenuItemCx,
+                    mAnimationDuration,
+                    mSearchEditText,
+                    this@MaterialSearchView,
+                    mOnOpenCloseListener
+                )
             }
         }
     }
@@ -713,11 +724,15 @@ class MaterialSearchView @JvmOverloads constructor(
             SearchAnimator.fadeOpen(mViewShadow!!, mAnimationDuration)
         }
 
+        if (mSearchArrowDrawable != null) {
+            mSearchArrowDrawable?.animate(SearchArrowDrawable.STATE_ARROW, mAnimationDuration)
+        }
+
         setMicOrClearIcon(true)
 
 
         // todo ===
-        if (mVersion == Search.Version.TOOLBAR) {
+        if (mVersion == Version.TOOLBAR) {
             // todo SavedState, marginy kulate a barva divideru
             if (mOnOpenCloseListener != null) {
                 mOnOpenCloseListener!!.onOpen()
@@ -733,12 +748,16 @@ class MaterialSearchView @JvmOverloads constructor(
             SearchAnimator.fadeClose(mViewShadow!!, mAnimationDuration)
         }
 
+        if (mSearchArrowDrawable != null) {
+            mSearchArrowDrawable?.animate(SearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
+        }
+
         // todo error + shadow error pri otoceni, pak mizi animace
         hideSuggestions()
         hideKeyboard()
         setMicOrClearIcon(false)
 
-        if (mVersion == Search.Version.TOOLBAR) {
+        if (mVersion == Version.TOOLBAR) {
             postDelayed({
                 if (mOnOpenCloseListener != null) {
                     mOnOpenCloseListener!!.onClose()
@@ -812,6 +831,83 @@ class MaterialSearchView @JvmOverloads constructor(
         return SearchBehavior()
     }
 
+    // *****************************************************************************************************************
+    interface OnLogoClickListener {
+
+        fun onLogoClick()
+    }
+
+    interface OnMicClickListener {
+
+        fun onMicClick()
+    }
+
+    interface OnMenuClickListener {
+
+        fun onMenuClick()
+    }
+
+    interface OnOpenCloseListener {
+
+        fun onOpen()
+
+        fun onClose()
+    }
+
+    interface OnQueryTextListener {
+
+        fun onQueryTextSubmit(query: CharSequence?): Boolean
+
+        fun onQueryTextChange(newText: CharSequence?)
+    }
+
+    // *****************************************************************************************************************
+    @IntDef(Logo.HAMBURGER, Logo.ARROW, Logo.HAMBURGER_TO_ARROW_ANIMATION)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Logo {
+        companion object {
+            const val HAMBURGER = 100
+            const val ARROW = 101
+            const val HAMBURGER_TO_ARROW_ANIMATION = 102
+        }
+    }
+
+    @IntDef(Shape.CLASSIC, Shape.ROUNDED)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Shape {
+        companion object {
+            const val CLASSIC = 200
+            const val ROUNDED = 201
+        }
+    }
+
+    @IntDef(Theme.LIGHT, Theme.DARK)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Theme {
+        companion object {
+            const val LIGHT = 300
+            const val DARK = 301
+        }
+    }
+
+    @IntDef(Version.TOOLBAR, Version.MENU_ITEM)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Version {
+        companion object {
+            const val TOOLBAR = 400
+            const val MENU_ITEM = 401
+        }
+    }
+
+    @IntDef(VersionMargins.TOOLBAR, VersionMargins.MENU_ITEM)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class VersionMargins {
+        companion object {
+            const val TOOLBAR = 500
+            const val MENU_ITEM = 501
+        }
+    }
+
 }
 
 /* kulate rohy a light a zkontrolvat Bar a compat nekde pouzito???
@@ -846,11 +942,11 @@ else {
 //mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-/*setLogo(a.getInteger(R.styleable.SearchView_search_logo, Search.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION()));
-setShape(a.getInteger(R.styleable.SearchView_search_shape, Search.Shape.Companion.getCLASSIC()));
-setTheme(a.getInteger(R.styleable.SearchView_search_theme, Search.Theme.Companion.getLIGHT()));
-setVersionMargins(a.getInteger(R.styleable.SearchView_search_version_margins, Search.VersionMargins.Companion.getTOOLBAR()));
-setVersion(a.getInteger(R.styleable.SearchView_search_version, Search.Version.Companion.getTOOLBAR()));
+/*setLogo(a.getInteger(R.styleable.SearchView_search_logo, SearchUtils.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION()));
+setShape(a.getInteger(R.styleable.SearchView_search_shape, SearchUtils.Shape.Companion.getCLASSIC()));
+setTheme(a.getInteger(R.styleable.SearchView_search_theme, SearchUtils.Theme.Companion.getLIGHT()));
+setVersionMargins(a.getInteger(R.styleable.SearchView_search_version_margins, SearchUtils.VersionMargins.Companion.getTOOLBAR()));
+setVersion(a.getInteger(R.styleable.SearchView_search_version, SearchUtils.Version.Companion.getTOOLBAR()));
 
 if (a.hasValue(R.styleable.SearchView_search_logo_icon)) {
     setLogoIcon(a.getInteger(R.styleable.SearchView_search_logo_icon, 0));

@@ -17,7 +17,6 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lapism.searchview.R
-import com.lapism.searchview.Search
 import com.lapism.searchview.database.SearchHistoryTable
 import com.lapism.searchview.internal.SearchViewHolder
 import java.lang.ref.WeakReference
@@ -53,10 +52,10 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
         mDatabase = mHistoryDatabase.allItems
         resultsList = mDatabase// todo
         suggestionsList = ArrayList()
-        setTheme(Search.Theme.LIGHT)
+        setTheme(MaterialSearchView.Theme.LIGHT)
     }
 
-    fun setSuggestionsList(suggestionsList: List<SearchItem>){
+    fun setSuggestionsList(suggestionsList: List<SearchItem>) {
         this.suggestionsList = suggestionsList
     }
 
@@ -99,10 +98,12 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
 
             if (!TextUtils.isEmpty(mConstraint) && titleLower.contains(mConstraint!!)) {
                 val s = SpannableString(title)
-                s.setSpan(ForegroundColorSpan(mTitleHighlightColor),
-                        titleLower.indexOf(mConstraint!!.toString()),
-                        titleLower.indexOf(mConstraint!!.toString()) + mConstraint!!.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                s.setSpan(
+                    ForegroundColorSpan(mTitleHighlightColor),
+                    titleLower.indexOf(mConstraint!!.toString()),
+                    titleLower.indexOf(mConstraint!!.toString()) + mConstraint!!.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
                 holder.title.setText(s, TextView.BufferType.SPANNABLE)
             } else {
                 holder.title.text = item.title
@@ -157,17 +158,17 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
         mTextFont = font
     }
 
-    fun setTheme(@Search.Theme theme: Int) {
+    fun setTheme(@MaterialSearchView.Theme theme: Int) {
         mContext?.get().let {
             when (theme) {
-                Search.Theme.LIGHT -> {
+                MaterialSearchView.Theme.LIGHT -> {
                     setIcon1Color(ContextCompat.getColor(it!!, R.color.search_light_icon_1_2))
                     setIcon2Color(ContextCompat.getColor(it, R.color.search_light_icon_1_2))
                     setTitleColor(ContextCompat.getColor(it, R.color.search_light_title))
                     setTitleHighlightColor(ContextCompat.getColor(it, R.color.search_light_title_highlight))
                     setSubtitleColor(ContextCompat.getColor(it, R.color.search_light_subtitle))
                 }
-                Search.Theme.DARK -> {
+                MaterialSearchView.Theme.DARK -> {
                     setIcon1Color(ContextCompat.getColor(it!!, R.color.search_dark_icon_1_2))
                     setIcon2Color(ContextCompat.getColor(it, R.color.search_dark_icon_1_2))
                     setTitleColor(ContextCompat.getColor(it, R.color.search_dark_title))
@@ -247,7 +248,6 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchViewHolder>()
     }
 
     // ---------------------------------------------------------------------------------------------
-
 
 
     interface OnSearchItemClickListener {

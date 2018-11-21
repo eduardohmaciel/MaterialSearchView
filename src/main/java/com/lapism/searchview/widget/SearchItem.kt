@@ -8,8 +8,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.text.TextUtils
 
-import com.lapism.searchview.R
-
 
 class SearchItem : Parcelable {
 
@@ -26,10 +24,10 @@ class SearchItem : Parcelable {
     }
 
     private constructor(parcel: Parcel) {
-        val bitmap_1 = parcel.readParcelable<Bitmap>(javaClass.classLoader)
-        this.icon1Drawable = BitmapDrawable(context?.resources, bitmap_1)
-        val bitmap_2 = parcel.readParcelable<Bitmap>(javaClass.classLoader)
-        this.icon2Drawable = BitmapDrawable(context?.resources, bitmap_2)
+        val bitmap1 = parcel.readParcelable<Bitmap>(javaClass.classLoader)
+        this.icon1Drawable = BitmapDrawable(context?.resources, bitmap1)
+        val bitmap2 = parcel.readParcelable<Bitmap>(javaClass.classLoader)
+        this.icon2Drawable = BitmapDrawable(context?.resources, bitmap2)
 
         this.icon1Resource = parcel.readInt()
         this.icon2Resource = parcel.readInt()
@@ -39,10 +37,10 @@ class SearchItem : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        val bitmap_1 = (this.icon1Drawable as BitmapDrawable).bitmap
-        dest.writeParcelable(bitmap_1, flags)
-        val bitmap_2 = (this.icon2Drawable as BitmapDrawable).bitmap
-        dest.writeParcelable(bitmap_2, flags)
+        val bitmap1 = (this.icon1Drawable as BitmapDrawable).bitmap
+        dest.writeParcelable(bitmap1, flags)
+        val bitmap2 = (this.icon2Drawable as BitmapDrawable).bitmap
+        dest.writeParcelable(bitmap2, flags)
 
         dest.writeInt(this.icon1Resource)
         dest.writeInt(this.icon2Resource)
@@ -59,8 +57,8 @@ class SearchItem : Parcelable {
 
         @JvmField
         val CREATOR: Parcelable.Creator<SearchItem> = object : Parcelable.Creator<SearchItem> {
-            override fun createFromParcel(`in`: Parcel): SearchItem {
-                return SearchItem(`in`)
+            override fun createFromParcel(parcel: Parcel): SearchItem {
+                return SearchItem(parcel)
             }
 
             override fun newArray(size: Int): Array<SearchItem?> {

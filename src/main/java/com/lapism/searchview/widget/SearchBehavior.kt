@@ -24,7 +24,11 @@ class SearchBehavior : CoordinatorLayout.Behavior<MaterialSearchView> {
         return super.layoutDependsOn(parent, child, dependency)
     }
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout, child: MaterialSearchView, dependency: View): Boolean {
+    override fun onDependentViewChanged(
+        parent: CoordinatorLayout,
+        child: MaterialSearchView,
+        dependency: View
+    ): Boolean {
         if (dependency is AppBarLayout) {
             child.translationY = dependency.getY()
             return true
