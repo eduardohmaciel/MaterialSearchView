@@ -119,7 +119,7 @@ class MaterialSearchView @JvmOverloads constructor(
         })
         mMaterialSearchEditText?.setOnEditorActionListener { _, _, _ ->
             onSubmitQuery()
-            true
+            return@setOnEditorActionListener true
         }
         mMaterialSearchEditText?.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -756,17 +756,30 @@ class MaterialSearchView @JvmOverloads constructor(
 
 
     override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
-        mMaterialSearchEditText?.requestFocus(direction, previouslyFocusedRect)
-
-        return super.requestFocus(direction, previouslyFocusedRect)
+        if (mClearingFocus) {
+            return false
+        }
+        if (!isFocusable) {
+            return false
+        }
+        if (!isIconified()) {
+            val result = mSearchSrcTextView.requestFocus(direction, previouslyFocusedRect)
+            if (result) {
+                updateViewsVisibility(false)
+            }
+            return result
+        } else {
+            return super.requestFocus(direction, previouslyFocusedRect)
+        }
     }
 
     override fun clearFocus() {
+        mClearingFocus = true
         super.clearFocus()
-
         mMaterialSearchEditText?.clearFocus()
+        mMaterialSearchEditText.setImeVisibility(false)
+        mClearingFocus = false
     }
-
 
     // todo v7 + todo tadycleanup code. projit anotace
     override fun onSaveInstanceState(): Parcelable? {
@@ -850,16 +863,16 @@ class MaterialSearchView @JvmOverloads constructor(
 
     interface OnOpenCloseListener {
 
-        fun onOpen()
+        fun onOpen() : Boolean
 
-        fun onClose()
+        fun onClose() : Boolean
     }
 
     interface OnQueryTextListener {
 
-        fun onQueryTextSubmit(query: CharSequence?): Boolean
+        fun onQueryTextSubmit(query: CharSequence?) : Boolean
 
-        fun onQueryTextChange(newText: CharSequence?)
+        fun onQueryTextChange(newText: CharSequence?) : Boolean
     }
 
     // *********************************************************************************************
