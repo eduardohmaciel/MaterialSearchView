@@ -14,7 +14,7 @@ import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
 import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.widget.MaterialSearchView
-
+// TODO companion object + ?
 // todo companion object
 object MaterialSearchAnimator {
 

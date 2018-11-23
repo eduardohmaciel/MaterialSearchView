@@ -6,7 +6,6 @@
     <color name="search_light_icon">#3c4043</color>
     <color name="search_light_icon_1_2">#80868b</color>
 
-
     <color name="search_light_divider">#1f000000</color>
     <color name="search_light_title">#de000000</color>
     <color name="search_light_title_highlight">#33000000</color>
@@ -21,13 +20,13 @@
 
 
     <color name="search_dark_divider">#1fffffff</color>
-    <color name="search_dark_title">#ffffff</color>
+    <color name="search_dark_title">#deffffff</color>
     <color name="search_dark_title_highlight">#aeffffff</color>
     <color name="search_dark_subtitle">#b3ffffff</color>
     <color name="search_dark_hint">#7fffffff</color>
 
 
-    <!-- Shadow VYENIT IKONKY TODO -->
+    <!-- Shadow TODO LAYUT -->
     <color name="search_shadow">#99000000</color>
     <color name="search_inset_foreground">#44000000</color>
 

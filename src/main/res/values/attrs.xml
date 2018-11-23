@@ -22,6 +22,7 @@
 
         <attr name="search_shadow_color" format="color" />
         <attr name="search_radius" format="dimension" />
+
     </declare-styleable>
 
 

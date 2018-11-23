@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.speech.RecognizerIntent
+import android.util.TypedValue
 import android.view.View
+import androidx.core.content.ContextCompat
 
 import androidx.core.view.ViewCompat
 
@@ -30,6 +32,17 @@ object MaterialSearchUtils {
         val pm = context.packageManager
         val activities = pm.queryIntentActivities(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0)
         return activities.size != 0
+    }
+
+    fun getArrowColor(context: Context): Int {
+        val outValue = TypedValue()
+        val theme = context.theme
+        val wasResolved = theme.resolveAttribute(android.R.attr.textColorPrimary, outValue, true)
+        return if (wasResolved) {
+            if (outValue.resourceId == 0) outValue.data else ContextCompat.getColor(context, outValue.resourceId)
+        } else {
+            android.R.color.black
+        }
     }
 
 }

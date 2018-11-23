@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.*
@@ -150,7 +151,6 @@ class MaterialSearchView @JvmOverloads constructor(
             context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
 
         setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.HAMBURGER_TO_ARROW_ANIMATION))
-
         setTheme(typedArray.getInteger(R.styleable.MaterialSearchView_search_theme, Theme.LIGHT))
         setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Version.TOOLBAR))
         setVersionMargins(
@@ -159,21 +159,18 @@ class MaterialSearchView @JvmOverloads constructor(
                 VersionMargins.TOOLBAR
             )
         )
-
         setShadowColor(
             typedArray.getColor(
                 R.styleable.MaterialSearchView_search_shadow_color,
                 ContextCompat.getColor(context, R.color.search_shadow)
             )
         )
-
-        // todo zkontrolovat zalomeni
+        // todo zkontrolovat zalomeni + layout
         setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
 
         typedArray.recycle()
 
         /// todo ===, ?:, ::
-        //  TODO kouknout do searchview v 7
         // LAYOUT, FILE PROVIDER, IKONKY, ATD... barvy ...            <!-- ?android:attr/listDivider never-->
     }
 
@@ -344,7 +341,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
     fun setMicColor(@ColorInt color: Int) {
         mImageViewMic?.setColorFilter(color)
-        // colorres
+        // @colorres
     }
 
     // *********************************************************************************************
@@ -374,8 +371,8 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     // *********************************************************************************************
-    fun getQuery(): Editable? {
-        return mMaterialSearchEditText?.text
+    fun getQuery(): CharSequence? {
+        return mQueryText
     }
 
     fun setQuery(query: CharSequence?, submit: Boolean) {
@@ -426,6 +423,8 @@ class MaterialSearchView @JvmOverloads constructor(
         mMaterialSearchEditText?.gravity = gravity
     }
 
+
+
     fun setTextImeOptions(imeOptions: Int) {
         mMaterialSearchEditText?.imeOptions = imeOptions
     }
@@ -433,6 +432,24 @@ class MaterialSearchView @JvmOverloads constructor(
     fun setTextInputType(inputType: Int) {
         mMaterialSearchEditText?.inputType = inputType
     }
+
+
+    fun getImeOptions(): Int? {
+        return mMaterialSearchEditText?.imeOptions
+    }
+
+    fun setImeOptions(imeOptions: Int) {
+        mMaterialSearchEditText?.imeOptions = imeOptions
+    }
+
+    fun getInputType(): Int? {
+        return mMaterialSearchEditText?.inputType
+    }
+
+    fun setInputType(inputType: Int) {
+        mMaterialSearchEditText?.inputType = inputType
+    }
+
 
     fun setHint(hint: CharSequence?) {
         mMaterialSearchEditText?.hint = hint
@@ -486,6 +503,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mRecyclerView?.removeItemDecoration(itemDecoration)
     }
 
+    // TODO ANOTACE ZKONTROLVOAT NUILLABLE
     // *********************************************************************************************
     override fun setBackgroundColor(@ColorInt color: Int) {
         mMaterialCardView?.setCardBackgroundColor(color)
@@ -615,11 +633,12 @@ class MaterialSearchView @JvmOverloads constructor(
                 /*if (mMenuItem != null) {
                     getMenuItemPosition(mMenuItem.getItemId())
                 }*/
+
                 val viewTreeObserver = mMaterialCardView?.viewTreeObserver
-                viewTreeObserver?.let {
-                    if (it.isAlive) {
-                        it.addOnGlobalLayoutListener {
-                            // TODO companion object + ?
+                if (viewTreeObserver?.isAlive!!) {
+                    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                        override fun onGlobalLayout() {
+
                             MaterialSearchAnimator.revealOpen(
                                 context,
                                 mMaterialCardView,
@@ -628,10 +647,10 @@ class MaterialSearchView @JvmOverloads constructor(
                                 mMaterialSearchEditText,
                                 mOnOpenCloseListener
                             )
-                        }
 
-                        mMaterialCardView?.viewTreeObserver?.removeOnGlobalLayoutListener()
-                    }
+                            mMaterialCardView?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
+                        }
+                    })
                 }
             }
         }
@@ -756,7 +775,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
 
     override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
-        if (mClearingFocus) {
+        /*if (mClearingFocus) {
             return false
         }
         if (!isFocusable) {
@@ -770,18 +789,19 @@ class MaterialSearchView @JvmOverloads constructor(
             return result
         } else {
             return super.requestFocus(direction, previouslyFocusedRect)
-        }
+        }*/
+        return false
     }
 
     override fun clearFocus() {
-        mClearingFocus = true
+        /*mClearingFocus = true
         super.clearFocus()
         mMaterialSearchEditText?.clearFocus()
         mMaterialSearchEditText.setImeVisibility(false)
-        mClearingFocus = false
+        mClearingFocus = false*/
     }
 
-    // todo v7 + todo tadycleanup code. projit anotace
+    // todo tadycleanup code. projit anotace
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
         val ss = MaterialSearchViewSavedState(superState!!)
@@ -863,16 +883,16 @@ class MaterialSearchView @JvmOverloads constructor(
 
     interface OnOpenCloseListener {
 
-        fun onOpen() : Boolean
+        fun onOpen(): Boolean
 
-        fun onClose() : Boolean
+        fun onClose(): Boolean
     }
 
     interface OnQueryTextListener {
 
-        fun onQueryTextSubmit(query: CharSequence?) : Boolean
+        fun onQueryTextSubmit(query: CharSequence?): Boolean
 
-        fun onQueryTextChange(newText: CharSequence?) : Boolean
+        fun onQueryTextChange(newText: CharSequence?): Boolean
     }
 
     // *********************************************************************************************
