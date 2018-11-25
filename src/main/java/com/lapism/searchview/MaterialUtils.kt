@@ -6,12 +6,10 @@ import android.content.Intent
 import android.speech.RecognizerIntent
 import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContextCompat
-
 import androidx.core.view.ViewCompat
 
 
-object MaterialSearchUtils {
+object MaterialUtils {
 
     const val SPEECH_REQUEST_CODE = 99
 
@@ -34,15 +32,12 @@ object MaterialSearchUtils {
         return activities.size != 0
     }
 
-    fun getArrowColor(context: Context): Int {
-        val outValue = TypedValue()
+    // android.R.attr.textColorPrimary
+    fun getAttrColor(context: Context, resid: Int): Int {
+        val typedValue = TypedValue()
         val theme = context.theme
-        val wasResolved = theme.resolveAttribute(android.R.attr.textColorPrimary, outValue, true)
-        return if (wasResolved) {
-            if (outValue.resourceId == 0) outValue.data else ContextCompat.getColor(context, outValue.resourceId)
-        } else {
-            android.R.color.black
-        }
+        theme.resolveAttribute(resid, typedValue, true)
+        return typedValue.data
     }
 
 }

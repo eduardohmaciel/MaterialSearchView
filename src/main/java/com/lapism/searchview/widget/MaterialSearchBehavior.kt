@@ -16,7 +16,6 @@ class MaterialSearchBehavior : CoordinatorLayout.Behavior<MaterialSearchView> {
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: MaterialSearchView, dependency: View): Boolean {
         if (dependency is AppBarLayout) {
-            ViewCompat.setElevation(child, ViewCompat.getElevation(dependency))
             ViewCompat.setZ(child, ViewCompat.getZ(dependency) + 1) // TODO no click background
 
             /*

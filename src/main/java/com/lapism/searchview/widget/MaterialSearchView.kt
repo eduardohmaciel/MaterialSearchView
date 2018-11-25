@@ -167,6 +167,7 @@ class MaterialSearchView @JvmOverloads constructor(
         )
         // todo zkontrolovat zalomeni + layout
         setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
+        // elevation
 
         typedArray.recycle()
 
@@ -967,11 +968,11 @@ else {
 //mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-/*setLogo(a.getInteger(R.styleable.SearchView_search_logo, MaterialSearchUtils.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION()));
-setShape(a.getInteger(R.styleable.SearchView_search_shape, MaterialSearchUtils.Shape.Companion.getCLASSIC()));
-setTheme(a.getInteger(R.styleable.SearchView_search_theme, MaterialSearchUtils.Theme.Companion.getLIGHT()));
-setVersionMargins(a.getInteger(R.styleable.SearchView_search_version_margins, MaterialSearchUtils.VersionMargins.Companion.getTOOLBAR()));
-setVersion(a.getInteger(R.styleable.SearchView_search_version, MaterialSearchUtils.Version.Companion.getTOOLBAR()));
+/*setLogo(a.getInteger(R.styleable.SearchView_search_logo, MaterialUtils.Logo.Companion.getHAMBURGER_TO_ARROW_ANIMATION()));
+setShape(a.getInteger(R.styleable.SearchView_search_shape, MaterialUtils.Shape.Companion.getCLASSIC()));
+setTheme(a.getInteger(R.styleable.SearchView_search_theme, MaterialUtils.Theme.Companion.getLIGHT()));
+setVersionMargins(a.getInteger(R.styleable.SearchView_search_version_margins, MaterialUtils.VersionMargins.Companion.getTOOLBAR()));
+setVersion(a.getInteger(R.styleable.SearchView_search_version, MaterialUtils.Version.Companion.getTOOLBAR()));
 
 if (a.hasValue(R.styleable.SearchView_search_logo_icon)) {
     setLogoIcon(a.getInteger(R.styleable.SearchView_search_logo_icon, 0));
