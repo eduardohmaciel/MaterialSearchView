@@ -1,8 +1,7 @@
 package com.lapism.searchview.widget
 
 import android.content.Context
-import android.graphics.Rect
-import android.graphics.Typeface
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.text.Editable
@@ -27,7 +26,7 @@ import com.lapism.searchview.graphics.MaterialSearchArrowDrawable
 import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.internal.MaterialSearchViewSavedState
 
-
+// JVM OVERLOADS TEST
 class MaterialSearchView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -41,8 +40,6 @@ class MaterialSearchView @JvmOverloads constructor(
 
     @Logo
     private var mLogo: Int = Logo.HAMBURGER_TO_ARROW_ANIMATION
-    @Theme
-    private var mTheme: Int = Theme.LIGHT
     @Version
     private var mVersion: Int = Version.TOOLBAR
     @VersionMargins
@@ -151,7 +148,6 @@ class MaterialSearchView @JvmOverloads constructor(
             context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
 
         setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.HAMBURGER_TO_ARROW_ANIMATION))
-        setTheme(typedArray.getInteger(R.styleable.MaterialSearchView_search_theme, Theme.LIGHT))
         setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Version.TOOLBAR))
         setVersionMargins(
             typedArray.getInteger(
@@ -165,6 +161,9 @@ class MaterialSearchView @JvmOverloads constructor(
                 ContextCompat.getColor(context, R.color.search_shadow)
             )
         )
+
+        //setMicResource()
+        // DOPSAT
         // todo zkontrolovat zalomeni + layout
         setRadius(resources.getDimensionPixelSize(R.dimen.search_shape_rounded).toFloat())
         // elevation
@@ -207,40 +206,8 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    @Theme
-    fun getTheme(): Int {
-        return mTheme
-    }
-
     // TODO colorres a color int
     // todo companion object ===, ::, striska erovn a se, ?:,
-    fun setTheme(@Theme theme: Int) {
-        mTheme = theme
-
-        when (mTheme) {
-            Theme.LIGHT -> {
-                setBackgroundColor(ContextCompat.getColor(context, R.color.search_light_background))
-                setDividerColor(ContextCompat.getColor(context, R.color.search_light_divider))
-                setLogoColor(ContextCompat.getColor(context, R.color.search_light_icon))
-                setMicColor(ContextCompat.getColor(context, R.color.search_light_icon))
-                setClearColor(ContextCompat.getColor(context, R.color.search_light_icon))
-                setMenuColor(ContextCompat.getColor(context, R.color.search_light_icon))
-                setHintColor(ContextCompat.getColor(context, R.color.search_light_hint))
-                setTextColor(ContextCompat.getColor(context, R.color.search_light_title))
-            }
-            Theme.DARK -> {
-                setBackgroundColor(ContextCompat.getColor(context, R.color.search_dark_background))
-                setDividerColor(ContextCompat.getColor(context, R.color.search_dark_divider))
-                setLogoColor(ContextCompat.getColor(context, R.color.search_dark_icon))
-                setMicColor(ContextCompat.getColor(context, R.color.search_dark_icon))
-                setClearColor(ContextCompat.getColor(context, R.color.search_dark_icon))
-                setMenuColor(ContextCompat.getColor(context, R.color.search_dark_icon))
-                setHintColor(ContextCompat.getColor(context, R.color.search_dark_hint))
-                setTextColor(ContextCompat.getColor(context, R.color.search_dark_title))
-            }
-        }
-    }
-
     @Version
     fun getVersion(): Int {
         return mVersion
@@ -329,6 +296,9 @@ class MaterialSearchView @JvmOverloads constructor(
 
     fun setLogoColor(@ColorInt color: Int) {
         mImageViewLogo?.setColorFilter(color)
+
+        val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        mMaterialSearchArrowDrawable?.colorFilter = colorFilter
     }
 
     // *********************************************************************************************
@@ -423,8 +393,6 @@ class MaterialSearchView @JvmOverloads constructor(
     fun setTextGravity(gravity: Int) {
         mMaterialSearchEditText?.gravity = gravity
     }
-
-
 
     fun setTextImeOptions(imeOptions: Int) {
         mMaterialSearchEditText?.imeOptions = imeOptions
@@ -734,6 +702,7 @@ class MaterialSearchView @JvmOverloads constructor(
         }
 
         if (mMaterialSearchArrowDrawable != null) {
+            mMaterialSearchArrowDrawable?.setVerticalMirror(false)
             mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_ARROW, mAnimationDuration)
         }
 
@@ -757,6 +726,7 @@ class MaterialSearchView @JvmOverloads constructor(
         }
 
         if (mMaterialSearchArrowDrawable != null) {
+            mMaterialSearchArrowDrawable?.setVerticalMirror(true)
             mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
         }
 
@@ -904,15 +874,6 @@ class MaterialSearchView @JvmOverloads constructor(
             const val HAMBURGER = 100
             const val ARROW = 101
             const val HAMBURGER_TO_ARROW_ANIMATION = 102
-        }
-    }
-
-    @IntDef(Theme.LIGHT, Theme.DARK)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class Theme {
-        companion object {
-            const val LIGHT = 300
-            const val DARK = 301
         }
     }
 

@@ -3,30 +3,11 @@
 
     <!-- Light -->
     <color name="search_light_background">#ffffff</color>
-    <color name="search_light_icon">#3c4043</color>
-    <color name="search_light_icon_1_2">#80868b</color>
-
-    <color name="search_light_divider">#1f000000</color>
-    <color name="search_light_title">#de000000</color>
-    <color name="search_light_title_highlight">#33000000</color>
-    <color name="search_light_subtitle">#8a000000</color>
-    <color name="search_light_hint">#60000000</color>
-
 
     <!-- Dark -->
     <color name="search_dark_background">#3c4043</color>
-    <color name="search_dark_icon">#ffffff</color>
-    <color name="search_dark_icon_1_2">#bdc1c6</color>
-
-
-    <color name="search_dark_divider">#1fffffff</color>
-    <color name="search_dark_title">#deffffff</color>
-    <color name="search_dark_title_highlight">#aeffffff</color>
-    <color name="search_dark_subtitle">#b3ffffff</color>
-    <color name="search_dark_hint">#7fffffff</color>
-
-
-    <!-- Shadow TODO LAYUT -->
+    <color name="search_dark_background2">#313235</color>
+    <!-- Shadow TODO LAYUT  + barvz textu atd-->
     <color name="search_shadow">#99000000</color>
     <color name="search_inset_foreground">#44000000</color>
 

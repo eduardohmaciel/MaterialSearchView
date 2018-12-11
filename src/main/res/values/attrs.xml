@@ -7,10 +7,6 @@
             <enum name="arrow" value="101" />
             <enum name="hamburger_to_arrow_animation" value="102" />
         </attr>
-        <attr name="search_theme" format="enum">
-            <enum name="light" value="300" />
-            <enum name="dark" value="301" />
-        </attr>
         <attr name="search_version" format="enum">
             <enum name="toolbar" value="400" />
             <enum name="menu_item" value="401" />

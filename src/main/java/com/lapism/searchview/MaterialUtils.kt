@@ -37,7 +37,7 @@ object MaterialUtils {
         val typedValue = TypedValue()
         val theme = context.theme
         theme.resolveAttribute(resid, typedValue, true)
-        return typedValue.data
+        return typedValue.data // resourceId
     }
 
 }

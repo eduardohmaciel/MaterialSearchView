@@ -14,7 +14,6 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lapism.searchview.R
 import com.lapism.searchview.database.MaterialSearchHistoryDao
@@ -52,7 +51,6 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
         mDatabase = mHistoryDatabaseMaterial.allItems
         resultsList = mDatabase// todo
         suggestionsList = ArrayList()
-        setTheme(MaterialSearchView.Theme.LIGHT)
     }
 
     fun setSuggestionsList(suggestionsList: List<MaterialSearchItem>) {
@@ -156,27 +154,6 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
 
     fun setTextFont(font: Typeface) {
         mTextFont = font
-    }
-
-    fun setTheme(@MaterialSearchView.Theme theme: Int) {
-        mContext?.get().let {
-            when (theme) {
-                MaterialSearchView.Theme.LIGHT -> {
-                    setIcon1Color(ContextCompat.getColor(it!!, R.color.search_light_icon_1_2))
-                    setIcon2Color(ContextCompat.getColor(it, R.color.search_light_icon_1_2))
-                    setTitleColor(ContextCompat.getColor(it, R.color.search_light_title))
-                    setTitleHighlightColor(ContextCompat.getColor(it, R.color.search_light_title_highlight))
-                    setSubtitleColor(ContextCompat.getColor(it, R.color.search_light_subtitle))
-                }
-                MaterialSearchView.Theme.DARK -> {
-                    setIcon1Color(ContextCompat.getColor(it!!, R.color.search_dark_icon_1_2))
-                    setIcon2Color(ContextCompat.getColor(it, R.color.search_dark_icon_1_2))
-                    setTitleColor(ContextCompat.getColor(it, R.color.search_dark_title))
-                    setTitleHighlightColor(ContextCompat.getColor(it, R.color.search_dark_title_highlight))
-                    setSubtitleColor(ContextCompat.getColor(it, R.color.search_dark_subtitle))
-                }
-            }
-        }
     }
 
     fun setOnSearchItemClickListener(listener: OnSearchItemClickListener) {
