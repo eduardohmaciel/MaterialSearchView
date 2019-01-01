@@ -16,12 +16,7 @@ class MaterialSearchBehavior : CoordinatorLayout.Behavior<MaterialSearchView> {
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: MaterialSearchView, dependency: View): Boolean {
         if (dependency is AppBarLayout) {
-            ViewCompat.setZ(child, ViewCompat.getZ(dependency) + 1) // TODO no click background
-
-            /*
-                app:layout_anchor="@id/viewA"
-    app:layout_anchorGravity="bottom|right|end"/>
-            */
+            ViewCompat.setZ(child, ViewCompat.getZ(dependency) + 1)
             return true
         }
         return super.layoutDependsOn(parent, child, dependency)
@@ -40,3 +35,8 @@ class MaterialSearchBehavior : CoordinatorLayout.Behavior<MaterialSearchView> {
     }
 
 }
+
+/*
+    app:layout_anchor="@id/viewA"
+app:layout_anchorGravity="bottom|right|end"/>
+*/

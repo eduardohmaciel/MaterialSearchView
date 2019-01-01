@@ -3,12 +3,14 @@
 
     <!-- Light -->
     <color name="search_light_background">#ffffff</color>
+    <color name="search_light_shadow">#99FFFFFF</color>
 
     <!-- Dark -->
     <color name="search_dark_background">#3c4043</color>
-    <color name="search_dark_background2">#313235</color>
-    <!-- Shadow TODO LAYUT  + barvz textu atd-->
-    <color name="search_shadow">#99000000</color>
+    <color name="search_dark_shadow">#99000000</color>
+
+    <!-- Unused -->
+    <color name="search_dark_background22">#313235</color>
     <color name="search_inset_foreground">#44000000</color>
 
 </resources>

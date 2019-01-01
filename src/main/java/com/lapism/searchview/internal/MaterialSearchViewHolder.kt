@@ -17,7 +17,7 @@ class MaterialSearchViewHolder(itemView: View, listener: MaterialSearchAdapter.O
 
     init {
         itemView.setOnClickListener {
-            listener?.onSearchItemClick(layoutPosition, title.text, subtitle.text)
+            listener?.onSearchItemClick(layoutPosition, title.text, subtitle.text) // getAdapterPosition()
         }
     }
 

@@ -2,8 +2,7 @@
 <resources>
 
     <dimen name="search_toolbar_margin_top_bottom">8dp</dimen>
-    <dimen name="search_toolbar_margin_left_right">8dp</dimen>
-
+    <dimen name="search_toolbar_margin_left_right">14dp</dimen>
     <dimen name="search_menu_item_margin">4dp</dimen>
 
 </resources>

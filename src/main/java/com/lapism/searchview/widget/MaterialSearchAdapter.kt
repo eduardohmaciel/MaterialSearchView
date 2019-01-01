@@ -16,7 +16,6 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.lapism.searchview.R
-import com.lapism.searchview.database.MaterialSearchHistoryDao
 import com.lapism.searchview.internal.MaterialSearchViewHolder
 import java.lang.ref.WeakReference
 import java.util.*
@@ -25,7 +24,7 @@ import java.util.*
 class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSearchViewHolder>(), Filterable {
 
     private var mContext: WeakReference<Context>? = null
-    private var mDatabase: MutableList<MaterialSearchItem>
+    //private var mDatabase: MutableList<MaterialSearchItem>
     private var mConstraint: CharSequence? = null
     private var suggestionsList: List<MaterialSearchItem>? = null
     private var resultsList: List<MaterialSearchItem>? = null
@@ -42,14 +41,14 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
     private var mTitleHighlightColor: Int = 0
     private var mTextStyle = Typeface.NORMAL
     private var mTextFont = Typeface.DEFAULT
-    private val mHistoryDatabaseMaterial: MaterialSearchHistoryDao
     /// var suggestionsList: MutableList<MaterialSearchItem>
 
     init {
         mContext = WeakReference(context)
-        mHistoryDatabaseMaterial = MaterialSearchHistoryDao(context)
-        mDatabase = mHistoryDatabaseMaterial.allItems
-        resultsList = mDatabase// todo
+        //mHistoryDatabaseMaterial = MaterialSearchHistoryDao(context)
+        //mDatabase = mHistoryDatabaseMaterial.allItems
+        //resultsList = mDatabase
+        resultsList = mutableListOf()
         suggestionsList = ArrayList()
     }
 
@@ -161,9 +160,9 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
     }
 
     // ---------------------------------------------------------------------------------------------
-    private fun setData(data: List<MaterialSearchItem>) {
+    private fun setData(data: MutableList<MaterialSearchItem>) {
         resultsList = data
-        notifyDataSetChanged() // todo notifyDataInserted
+        notifyDataSetChanged()
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -178,12 +177,12 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
                     val history = ArrayList<MaterialSearchItem>()
                     val results = ArrayList<MaterialSearchItem>()
 
-                    mDatabase.clear()
-                    mDatabase = mHistoryDatabaseMaterial.allItems
+                    //mDatabase.clear()
+                    //mDatabase = mHistoryDatabaseMaterial.allItems
 
-                    if (!mDatabase.isEmpty()) {
+                    /*if (!mDatabase.isEmpty()) {
                         history.addAll(mDatabase)
-                    }
+                    }*/
                     history.addAll(suggestionsList!!)
 
                     for (item in history) {
@@ -197,10 +196,10 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
                         filterResults.count = results.size
                     }
                 } else {
-                    if (!mDatabase.isEmpty()) {
+                    /*if (!mDatabase.isEmpty()) {
                         filterResults.values = mDatabase
                         filterResults.count = mDatabase.size
-                    }
+                    }*/
                 }
 
                 return filterResults
@@ -233,6 +232,4 @@ class MaterialSearchAdapter(context: Context) : RecyclerView.Adapter<MaterialSea
 
     }
 
-
-    // TODO OVERRIDES ZNOVA...KOTLINOVE+ANJOTACE
 }

@@ -26,14 +26,13 @@ import com.lapism.searchview.graphics.MaterialSearchArrowDrawable
 import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.internal.MaterialSearchViewSavedState
 
-// JVM OVERLOADS TEST
+@Suppress("unused")
 class MaterialSearchView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-) :
-    FrameLayout(context, attrs, defStyleAttr, defStyleRes),
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes),
     View.OnClickListener,
     Filter.FilterListener,
     CoordinatorLayout.AttachedBehavior {
@@ -71,14 +70,11 @@ class MaterialSearchView @JvmOverloads constructor(
     private var mOnQueryTextListener: OnQueryTextListener? = null
 
     init {
-        // TODO chose let or .... JETPACK KTX ROOM
-        // TODO PROJIT SEARCHVIEW V7 METODY A INTERFACES
-        // TODO ROOM, LINT, SWIPERFESH, CHILD PARAMETR, ANIMACE, PROMENNE GRADLE // OVERRDES A DO KOTLINU A UPRAVIT KOTLINPROJITsearch_{
-        inflate(context, R.layout.material_search_view, this)
+        inflate(context, R.layout.material_search_view, this@MaterialSearchView)
 
         mViewShadow = findViewById(R.id.search_view_shadow)
         mViewShadow?.visibility = View.GONE
-        mViewShadow?.setOnClickListener(this@MaterialSearchView) // todo
+        mViewShadow?.setOnClickListener(this)
 
         mViewDivider = findViewById(R.id.search_view_divider)
         mViewDivider?.visibility = View.GONE
@@ -86,7 +82,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mLinearLayout = findViewById(R.id.search_linearLayout)
 
         mImageViewLogo = findViewById(R.id.search_imageView_logo)
-        mImageViewLogo?.setOnClickListener(this@MaterialSearchView)
+        mImageViewLogo?.setOnClickListener(this)
 
         mImageViewMic = findViewById(R.id.search_imageView_mic)
         mImageViewMic?.visibility = View.GONE
@@ -158,10 +154,15 @@ class MaterialSearchView @JvmOverloads constructor(
         setShadowColor(
             typedArray.getColor(
                 R.styleable.MaterialSearchView_search_shadow_color,
-                ContextCompat.getColor(context, R.color.search_shadow)
+                ContextCompat.getColor(context, R.color.search_dark_shadow)
             )
         )
 
+        // TODO chose let or .... JETPACK KTX ROOM
+        // TODO PROJIT SEARCHVIEW V7 METODY A INTERFACES
+        // TODO ROOM, LINT, SWIPERFESH, CHILD PARAMETR, ANIMACE, PROMENNE GRADLE // OVERRDES A DO KOTLINU A UPRAVIT KOTLINPROJITsearch_{
+        // TODO colorres a color int
+        // todo companion object ===, ::, striska erovn a se, ?:,
         //setMicResource()
         // DOPSAT
         // todo zkontrolovat zalomeni + layout
@@ -206,8 +207,6 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    // TODO colorres a color int
-    // todo companion object ===, ::, striska erovn a se, ?:,
     @Version
     fun getVersion(): Int {
         return mVersion
@@ -294,11 +293,24 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewLogo?.setImageDrawable(drawable)
     }
 
-    fun setLogoColor(@ColorInt color: Int) {
-        mImageViewLogo?.setColorFilter(color)
+    /*fun setLogoColor(@ColorInt color: Int) {
 
-        val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        mMaterialSearchArrowDrawable?.colorFilter = colorFilter
+        // DODELAT TADY METODY NA PREDANI COLORFITREU
+        val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+
+        mImageViewLogo?.setColorFilter(colorFilter)
+    }*/
+
+    fun setColorFilter(cf: ColorFilter?) {
+
+    }
+
+    fun setLogoColor(@ColorInt color: Int) {
+
+        // DODELAT TADY METODY NA PREDANI COLORFITREU
+        val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+
+        mImageViewLogo?.setColorFilter(colorFilter)
     }
 
     // *********************************************************************************************
@@ -638,7 +650,7 @@ class MaterialSearchView @JvmOverloads constructor(
                     mMenuItemCx,
                     mAnimationDuration,
                     mMaterialSearchEditText,
-                    this@MaterialSearchView,
+                    this,
                     mOnOpenCloseListener
                 )
             }
@@ -743,6 +755,8 @@ class MaterialSearchView @JvmOverloads constructor(
             }, mAnimationDuration)
         }
     }
+
+    // close s nastavenim
 
 
     override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
@@ -897,14 +911,6 @@ class MaterialSearchView @JvmOverloads constructor(
 
 }
 
-/* kulate rohy a light a zkontrolvat Bar a compat nekde pouzito???
- * ZKONTROLOVAT VZHLED KODU ...
- * readme
- * +  todo obraky a dodelat vypis metod
- * THIS A PRIVATE
- * colorpicker
- * komENTARE A BUGY
- * */
 
 /*
 if ( drawable != null ) {
@@ -1006,7 +1012,7 @@ if (a.hasValue(R.styleable.SearchView_search_elevation)) {
     setElevation(a.getDimensionPixelSize(R.styleable.SearchView_search_elevation, 0));
 }
 
-a.recycle();
+
 
 //setSaveEnabled(true);*/
 
@@ -1016,3 +1022,6 @@ a.recycle();
  */
 // @FloatRange(from = 0.5, to = 1.0)
 // Listeners
+
+
+// BOTTOM NAV ACTIVITY  A SAMPLES
