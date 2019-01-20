@@ -9,8 +9,4 @@
     <color name="search_dark_background">#3c4043</color>
     <color name="search_dark_shadow">#99000000</color>
 
-    <!-- Unused -->
-    <color name="search_dark_background22">#313235</color>
-    <color name="search_inset_foreground">#44000000</color>
-
 </resources>

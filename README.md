@@ -48,17 +48,17 @@ dependencies {
 
 I would like to know if someone of you are using my library in your application. If yes, please send me the name of your app and link to the Play Store and I will promote your app here.
 
-[Service Notes](https://play.google.com/store/apps/details?id=notes.service.com.servicenotes)  
-[Business Card Reader](https://play.google.com/store/apps/details?id=com.iac.bcreader)  
-[Toiletto](https://play.google.com/store/apps/details?id=org.super8.lastbastion)  
-[Zikobot](https://play.google.com/store/apps/details?id=com.startogamu.zikobot)  
-[AllWeather](https://play.google.com/store/apps/details?id=com.dev.nicola.allweather)  
-[Karaoke Online Sing & Record](https://play.google.com/store/apps/details?id=com.anhlt.karaokeonline)  
-[Playbuzz](https://play.google.com/store/apps/details?id=com.playbuzz.android.app)  
-[MovieTracker](https://play.google.com/store/apps/details?id=jacobs.yen.movietracker)  
-[RealTime Subscriber YouTube](https://play.google.com/store/apps/details?id=vulcanweblabs.realtimeyoutube)  
-[Lucidity - Lucid Dream Journal](https://play.google.com/store/apps/details?id=ch.b3nz.lucidity)  
-[Guide COC](https://play.google.com/store/apps/details?id=com.superguide.coc)
+[Service Notes](https://play.google.com/store/requestApps/details?id=notes.service.com.servicenotes)
+[Business Card Reader](https://play.google.com/store/requestApps/details?id=com.iac.bcreader)
+[Toiletto](https://play.google.com/store/requestApps/details?id=org.super8.lastbastion)
+[Zikobot](https://play.google.com/store/requestApps/details?id=com.startogamu.zikobot)
+[AllWeather](https://play.google.com/store/requestApps/details?id=com.dev.nicola.allweather)
+[Karaoke Online Sing & Record](https://play.google.com/store/requestApps/details?id=com.anhlt.karaokeonline)
+[Playbuzz](https://play.google.com/store/requestApps/details?id=com.playbuzz.android.app)
+[MovieTracker](https://play.google.com/store/requestApps/details?id=jacobs.yen.movietracker)
+[RealTime Subscriber YouTube](https://play.google.com/store/requestApps/details?id=vulcanweblabs.realtimeyoutube)
+[Lucidity - Lucid Dream Journal](https://play.google.com/store/requestApps/details?id=ch.b3nz.lucidity)
+[Guide COC](https://play.google.com/store/requestApps/details?id=com.superguide.coc)
 
 ### Author
 

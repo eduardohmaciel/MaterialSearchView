@@ -8,12 +8,12 @@
             <enum name="hamburger_to_arrow_animation" value="102" />
         </attr>
         <attr name="search_version" format="enum">
-            <enum name="toolbar" value="400" />
-            <enum name="menu_item" value="401" />
+            <enum name="toolbar" value="200" />
+            <enum name="menu_item" value="201" />
         </attr>
         <attr name="search_version_margins" format="enum">
-            <enum name="toolbar" value="500" />
-            <enum name="menu_item" value="501" />
+            <enum name="toolbar" value="300" />
+            <enum name="menu_item" value="301" />
         </attr>
 
         <attr name="search_shadow_color" format="color" />

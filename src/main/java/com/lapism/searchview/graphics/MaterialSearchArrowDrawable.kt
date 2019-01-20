@@ -2,13 +2,9 @@ package com.lapism.searchview.graphics
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.ColorFilter
 import android.util.Property
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
-import androidx.core.content.ContextCompat
-import com.lapism.searchview.MaterialUtils
-import com.lapism.searchview.R
 
 
 class MaterialSearchArrowDrawable(context: Context) : DrawerArrowDrawable(context) {

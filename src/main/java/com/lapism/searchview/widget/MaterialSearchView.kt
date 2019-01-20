@@ -257,7 +257,7 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setShadowVisibility(visibility: Int) {
         mViewShadow?.visibility = visibility
     }
@@ -266,25 +266,25 @@ class MaterialSearchView @JvmOverloads constructor(
         mViewShadow?.setBackgroundColor(color)
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setDividerColor(@ColorInt color: Int) {
         mViewDivider?.setBackgroundColor(color)
     }
 
-    // *********************************************************************************************
-    fun getSearchViewHeight(): Int {
+    // *****************************************************************************************************************
+    fun getLayoutHeight(): Int {
         val params = mLinearLayout?.layoutParams
         return params?.height!!
     }
 
-    fun setSearchViewHeight(height: Int) {
+    fun setLayoutHeight(height: Int) {
         val params = mLinearLayout?.layoutParams
         params?.height = height
         params?.width = ViewGroup.LayoutParams.MATCH_PARENT
         mLinearLayout?.layoutParams = params
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setLogoResource(@DrawableRes resource: Int) {
         mImageViewLogo?.setImageResource(resource)
     }
@@ -294,18 +294,16 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     /*fun setLogoColor(@ColorInt color: Int) {
-
-        // DODELAT TADY METODY NA PREDANI COLORFITREU
         val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
         mImageViewLogo?.setColorFilter(colorFilter)
     }*/
 
-    fun setColorFilter(cf: ColorFilter?) {
+    fun setLogoColorFilter(cf: ColorFilter?) {
 
     }
 
-    fun setLogoColor(@ColorInt color: Int) {
+    fun setLogoColorFilter(@ColorInt color: Int) {
 
         // DODELAT TADY METODY NA PREDANI COLORFITREU
         val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
@@ -313,7 +311,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewLogo?.setColorFilter(colorFilter)
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setMicResource(@DrawableRes resource: Int) {
         mImageViewMic?.setImageResource(resource)
     }
@@ -327,7 +325,7 @@ class MaterialSearchView @JvmOverloads constructor(
         // @colorres
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setClearResource(@DrawableRes resource: Int) {
         mImageViewClear?.setImageResource(resource)
     }
@@ -340,7 +338,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewClear?.setColorFilter(color)
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setMenuResource(@DrawableRes resource: Int) {
         mImageViewMenu?.setImageResource(resource)
     }
@@ -353,7 +351,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewMenu?.setColorFilter(color)
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun getQuery(): CharSequence? {
         return mQueryText
     }
@@ -467,7 +465,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mMaterialSearchEditText?.typeface = Typeface.create(mTextFont, mTextStyle)
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun getAdapter(): RecyclerView.Adapter<*>? {
         return mRecyclerView?.adapter
     }
@@ -484,8 +482,8 @@ class MaterialSearchView @JvmOverloads constructor(
         mRecyclerView?.removeItemDecoration(itemDecoration)
     }
 
-    // TODO ANOTACE ZKONTROLVOAT NUILLABLE
-    // *********************************************************************************************
+    // ANOTACE A NULLABLE
+    // *****************************************************************************************************************
     override fun setBackgroundColor(@ColorInt color: Int) {
         mMaterialCardView?.setCardBackgroundColor(color)
     }
@@ -506,7 +504,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mMaterialCardView?.cardElevation = elevation
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun isOpen(): Boolean {
         return visibility == View.VISIBLE
     }
@@ -515,7 +513,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mAnimationDuration = animationDuration
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     fun setOnLogoClickListener(listener: OnLogoClickListener) {
         mOnLogoClickListener = listener
     }
@@ -850,7 +848,7 @@ class MaterialSearchView @JvmOverloads constructor(
         return MaterialSearchBehavior()
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     interface OnLogoClickListener {
 
         fun onLogoClick()
@@ -880,7 +878,7 @@ class MaterialSearchView @JvmOverloads constructor(
         fun onQueryTextChange(newText: CharSequence?): Boolean
     }
 
-    // *********************************************************************************************
+    // *****************************************************************************************************************
     @IntDef(Logo.HAMBURGER, Logo.ARROW, Logo.HAMBURGER_TO_ARROW_ANIMATION)
     @Retention(AnnotationRetention.SOURCE)
     annotation class Logo {
@@ -895,8 +893,8 @@ class MaterialSearchView @JvmOverloads constructor(
     @Retention(AnnotationRetention.SOURCE)
     annotation class Version {
         companion object {
-            const val TOOLBAR = 400
-            const val MENU_ITEM = 401
+            const val TOOLBAR = 200
+            const val MENU_ITEM = 201
         }
     }
 
@@ -904,8 +902,8 @@ class MaterialSearchView @JvmOverloads constructor(
     @Retention(AnnotationRetention.SOURCE)
     annotation class VersionMargins {
         companion object {
-            const val TOOLBAR = 500
-            const val MENU_ITEM = 501
+            const val TOOLBAR = 300
+            const val MENU_ITEM = 301
         }
     }
 

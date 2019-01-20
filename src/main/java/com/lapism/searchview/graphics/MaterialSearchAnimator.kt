@@ -11,6 +11,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.google.android.material.card.MaterialCardView
+import com.lapism.searchview.MaterialUtils
 import com.lapism.searchview.R
 import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.widget.MaterialSearchView
@@ -29,7 +30,7 @@ object MaterialSearchAnimator {
         var cx = cardViewX
         if (cx <= 0) {
             val padding = context.resources.getDimensionPixelSize(R.dimen.search_reveal)
-            cx = if (isRtlLayout(context)) {
+            cx = if (MaterialUtils.isLayoutRtl(context)) {
                 padding
             } else {
                 materialCardView?.width!! - padding
@@ -75,7 +76,7 @@ object MaterialSearchAnimator {
         var cx = cardViewX
         if (cx <= 0) {
             val padding = context.resources.getDimensionPixelSize(R.dimen.search_reveal)
-            cx = if (isRtlLayout(context)) {
+            cx = if (MaterialUtils.isLayoutRtl(context)) {
                 padding
             } else {
                 materialCardView?.width!! - padding

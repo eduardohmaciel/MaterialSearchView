@@ -21,7 +21,7 @@ object MaterialUtils {
         return ViewCompat.getLayoutDirection(view) == ViewCompat.LAYOUT_DIRECTION_RTL
     }
 
-    fun isRtlLayout(context: Context): Boolean {
+    fun isLayoutRtl(context: Context): Boolean {
         return context.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
     }
 
@@ -53,40 +53,30 @@ object MaterialUtils {
         return ContextCompat.getColor(context, typedValue.resourceId)
     }
 
-    fun getBitmapFromVectorDrawable(context: Context, drawableId: Int): Bitmap {
+    fun getBitmapFromVectorDrawable(context: Context, id: Int): Bitmap {
 
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
         //AppCompatResources.getDrawable(requireContext(), drawableId)
 
-        val drawable = ContextCompat.getDrawable(context, drawableId)
+        val drawable = ContextCompat.getDrawable(context, id)
         drawable?.let {
             if (it is BitmapDrawable) {
                 return it.bitmap
             } else {
                 // VectorDrawable or AdaptiveIconDrawable
-
-                //var bitmap : Bitmap? = null
-                /*if(it.intrinsicWidth <= 0 || it.intrinsicHeight <= 0) {
-                    bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+                val bitmap: Bitmap = if (it.intrinsicWidth <= 0 || it.intrinsicHeight <= 0) {
+                    Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
                 } else {
-                    bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-                }*/
-
-
-                val bitmap =
                     Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-
+                }
+                // BitmapFactory.decodeResource(context.resources, drawableId)
                 val canvas = Canvas(bitmap)
                 drawable.setBounds(0, 0, canvas.width, canvas.height)
                 drawable.draw(canvas)
-
                 return bitmap
             }
         }
-
-
-        // return BitmapFactory.decodeResource(context.resources, drawableId)
     }
 
 }
