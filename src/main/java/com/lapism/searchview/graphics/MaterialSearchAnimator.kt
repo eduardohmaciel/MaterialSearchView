@@ -37,7 +37,7 @@ object MaterialSearchAnimator {
             }
         }
 
-        val cy = context.resources.getDimensionPixelSize(R.dimen.search_height_view) / 2
+        val cy = context.resources.getDimensionPixelSize(R.dimen.search_layout_height_default) / 2
 
         if (cx != 0 && cy != 0) {
             val displaySize = Point()
@@ -83,7 +83,7 @@ object MaterialSearchAnimator {
             }
         }
 
-        val cy = context.resources.getDimensionPixelSize(R.dimen.search_height_view) / 2
+        val cy = context.resources.getDimensionPixelSize(R.dimen.search_layout_height_default) / 2
 
         if (cx != 0 && cy != 0) {
             val displaySize = Point()

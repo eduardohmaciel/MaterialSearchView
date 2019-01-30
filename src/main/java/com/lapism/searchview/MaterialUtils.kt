@@ -11,6 +11,12 @@ import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import android.graphics.drawable.Drawable
+import android.content.ComponentName
+import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+
+
 
 
 object MaterialUtils {
@@ -53,7 +59,7 @@ object MaterialUtils {
         return ContextCompat.getColor(context, typedValue.resourceId)
     }
 
-    fun getBitmapFromVectorDrawable(context: Context, id: Int): Bitmap {
+    /*fun getBitmapFromVectorDrawable(context: Context, id: Int): Bitmap {
 
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
@@ -61,8 +67,8 @@ object MaterialUtils {
 
         val drawable = ContextCompat.getDrawable(context, id)
         drawable?.let {
-            if (it is BitmapDrawable) {
-                return it.bitmap
+            return if (it is BitmapDrawable) {
+                it.bitmap
             } else {
                 // VectorDrawable or AdaptiveIconDrawable
                 val bitmap: Bitmap = if (it.intrinsicWidth <= 0 || it.intrinsicHeight <= 0) {
@@ -74,9 +80,22 @@ object MaterialUtils {
                 val canvas = Canvas(bitmap)
                 drawable.setBounds(0, 0, canvas.width, canvas.height)
                 drawable.draw(canvas)
-                return bitmap
+                bitmap
             }
         }
+    }*/
+
+    fun daf(){
+        /*val pm = context.getPackageManager()
+        val launchIntentForPackage = pm.getLaunchIntentForPackage(packageName)
+        val fullPathToActivity = launchIntentForPackage!!.getComponent()!!.getClassName()
+        val activityInfo = pm.getActivityInfo(ComponentName(packageName, fullPathToActivity), 0)
+        val iconRes = activityInfo.icon
+        val drawable = pm.getDrawable(
+            packageName,
+            iconRes,
+            activityInfo.applicationInfo
+        ) // will be AdaptiveIconDrawable, if the app has it*/
     }
 
 }

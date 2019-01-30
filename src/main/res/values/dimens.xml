@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="search_height_view">48dp</dimen>
+    <dimen name="search_layout_height_default">48dp</dimen>
+    <dimen name="search_corner_radius_default">8dp</dimen>
+    <dimen name="search_elevation_default">4dp</dimen>
+
+    <dimen name="search_layout_height_focused">56dp</dimen>
+    <dimen name="search_corner_radius_focused">0dp</dimen>
+    <dimen name="search_elevation_focused">0dp</dimen>
+
     <dimen name="search_shape_classic">@dimen/cardview_default_radius</dimen>
     <dimen name="search_shape_rounded">8dp</dimen>
     <dimen name="search_shape_oval">24dp</dimen>
@@ -16,5 +23,6 @@
     <dimen name="search_text_16">16sp</dimen>
     <dimen name="search_reveal">24dp</dimen>
     <dimen name="search_menu_margin_right">10dp</dimen>
+    <dimen name="search_corner_radius">8dp</dimen>
 
 </resources>

@@ -12,7 +12,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.*
@@ -39,10 +38,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
     @Logo
     private var mLogo: Int = Logo.HAMBURGER_TO_ARROW_ANIMATION
-    @Version
-    private var mVersion: Int = Version.TOOLBAR
-    @VersionMargins
-    private var mVersionMargins: Int = VersionMargins.TOOLBAR
+
     private var mTextStyle = Typeface.NORMAL
     private var mTextFont = Typeface.DEFAULT
     private var mAnimationDuration: Long = 300L
@@ -144,19 +140,7 @@ class MaterialSearchView @JvmOverloads constructor(
             context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
 
         setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.HAMBURGER_TO_ARROW_ANIMATION))
-        setVersion(typedArray.getInteger(R.styleable.MaterialSearchView_search_version, Version.TOOLBAR))
-        setVersionMargins(
-            typedArray.getInteger(
-                R.styleable.MaterialSearchView_search_version_margins,
-                VersionMargins.TOOLBAR
-            )
-        )
-        setShadowColor(
-            typedArray.getColor(
-                R.styleable.MaterialSearchView_search_shadow_color,
-                ContextCompat.getColor(context, R.color.search_dark_shadow)
-            )
-        )
+
 
         // TODO chose let or .... JETPACK KTX ROOM
         // TODO PROJIT SEARCHVIEW V7 METODY A INTERFACES
@@ -173,6 +157,9 @@ class MaterialSearchView @JvmOverloads constructor(
 
         /// todo ===, ?:, ::
         // LAYOUT, FILE PROVIDER, IKONKY, ATD... barvy ...            <!-- ?android:attr/listDivider never-->
+
+        setShadowColor(ContextCompat.getColor(getContext(), R.color.search_shadow))
+        setVersionMarginsDefault()
     }
 
     @Logo
@@ -207,54 +194,43 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    @Version
-    fun getVersion(): Int {
-        return mVersion
-    }
-
-    fun setVersion(@Version version: Int) {
-        mVersion = version
-
-        when (mVersion) {
-            Version.TOOLBAR -> visibility = View.VISIBLE
-            Version.MENU_ITEM -> visibility = View.GONE
-        }
-    }
-
-    @VersionMargins
-    fun getVersionMargins(): Int {
-        return mVersionMargins
-    }
-
-    fun setVersionMargins(@VersionMargins versionMargins: Int) {
-        mVersionMargins = versionMargins
+    private fun setVersionMarginsDefault() {
+        var left: Int = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right) // :-)
+        var top = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
+        var right = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
+        var bottom = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
 
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val left: Int
-        val top: Int
-        val right: Int
-        val bottom: Int
+        params.setMargins(left, top, right, bottom)
+        mMaterialCardView?.layoutParams = params
 
-        when (mVersionMargins) {
-            VersionMargins.TOOLBAR -> {
-                left = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
-                top = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
-                right = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
-                bottom = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
+        left = 0
+        top = 0
+        right = 0
+        bottom = 0
 
-                params.setMargins(left, top, right, bottom)
-                mMaterialCardView?.layoutParams = params
-            }
-            VersionMargins.MENU_ITEM -> {
-                left = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
-                top = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
-                right = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
-                bottom = context.resources.getDimensionPixelSize(R.dimen.search_menu_item_margin)
+        val params2 =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        params2.setMargins(left, top, right, bottom)
+        mMaterialSearchEditText?.layoutParams = params2
+    }
 
-                params.setMargins(left, top, right, bottom)
-                mMaterialCardView?.layoutParams = params
-            }
-        }
+    private fun setVersionMarginsFocused() {
+        var left = 0
+        val top = 0
+        val right = 0
+        val bottom = 0
+
+        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.setMargins(left, top, right, bottom)
+        mMaterialCardView?.layoutParams = params
+
+        left = context.resources.getDimensionPixelSize(R.dimen.search_key_line_8)
+
+        val params2 =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        params2.setMargins(left, top, right, bottom)
+        mMaterialSearchEditText?.layoutParams = params2
     }
 
     // *****************************************************************************************************************
@@ -308,7 +284,7 @@ class MaterialSearchView @JvmOverloads constructor(
         // DODELAT TADY METODY NA PREDANI COLORFITREU
         val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
-        mImageViewLogo?.setColorFilter(colorFilter)
+        mImageViewLogo?.colorFilter = colorFilter
     }
 
     // *****************************************************************************************************************
@@ -322,7 +298,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
     fun setMicColor(@ColorInt color: Int) {
         mImageViewMic?.setColorFilter(color)
-        // @colorres
+        // todo @colorres
     }
 
     // *****************************************************************************************************************
@@ -482,7 +458,7 @@ class MaterialSearchView @JvmOverloads constructor(
         mRecyclerView?.removeItemDecoration(itemDecoration)
     }
 
-    // ANOTACE A NULLABLE
+    // todo ANOTACE A NULLABLE
     // *****************************************************************************************************************
     override fun setBackgroundColor(@ColorInt color: Int) {
         mMaterialCardView?.setCardBackgroundColor(color)
@@ -592,21 +568,18 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }*/
 
-    private fun getCenterX(view: View): Int {
+    /*private fun getCenterX(view: View): Int {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
         return location[0] + view.width / 2
-    }
+    }*/
 
     fun open() {
-        open(null)
-    }
+        mMaterialSearchEditText?.requestFocus()
 
-    fun open(menuItem: MenuItem?) {
-        mMenuItem = menuItem
 
-        when (mVersion) {
-            Version.TOOLBAR -> mMaterialSearchEditText?.requestFocus()
+        /*when (mVersion) {
+            Version.TOOLBAR ->
             Version.MENU_ITEM -> {
                 visibility = View.VISIBLE
                 /*if (mMenuItem != null) {
@@ -631,13 +604,14 @@ class MaterialSearchView @JvmOverloads constructor(
                         }
                     })
                 }
-            }
-        }
+            }*/
     }
 
     fun close() {
-        when (mVersion) {
-            Version.TOOLBAR -> mMaterialSearchEditText?.clearFocus()
+        mMaterialSearchEditText?.clearFocus()
+
+        /*when (mVersion) {
+            Version.TOOLBAR ->
             Version.MENU_ITEM -> {
                 /*if (mMenuItem != null) {
                     getMenuItemPosition(mMenuItem.getItemId())
@@ -652,7 +626,7 @@ class MaterialSearchView @JvmOverloads constructor(
                     mOnOpenCloseListener
                 )
             }
-        }
+        }*/
     }
 
     private fun filter(s: CharSequence?) {
@@ -707,23 +681,26 @@ class MaterialSearchView @JvmOverloads constructor(
     private fun addFocus() {
         filter(mQueryText)
 
-        if (mViewShadow?.visibility == View.GONE) {
+        /*if (mViewShadow?.visibility == View.GONE) {
             MaterialSearchAnimator.fadeOpen(mViewShadow!!, mAnimationDuration)
-        }
+        }*/
 
         if (mMaterialSearchArrowDrawable != null) {
             mMaterialSearchArrowDrawable?.setVerticalMirror(false)
             mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_ARROW, mAnimationDuration)
         }
 
+        mViewShadow?.visibility = View.VISIBLE
+        mViewDivider?.visibility = View.VISIBLE
         setMicOrClearIcon(true)
-
+            setVersionMarginsFocused()
+        setRadius(context.resources.getDimensionPixelSize(R.dimen.search_corner_radius_focused).toFloat())
+        setLayoutHeight(context.resources.getDimensionPixelSize(R.dimen.search_layout_height_focused))
+        setShadowColor(ContextCompat.getColor(getContext(), R.color.search_light_background)) // TODO FIX
+        elevation = context.resources.getDimensionPixelSize(R.dimen.search_elevation_focused).toFloat()
         // todo ===
-        if (mVersion == Version.TOOLBAR) {
-            // todo SavedState, marginy kulate a barva divideru
-            if (mOnOpenCloseListener != null) {
-                mOnOpenCloseListener!!.onOpen()
-            }
+        if (mOnOpenCloseListener != null) {
+            mOnOpenCloseListener!!.onOpen()
         }
 
         postDelayed({ showKeyboard() }, mAnimationDuration)
@@ -731,27 +708,32 @@ class MaterialSearchView @JvmOverloads constructor(
 
     private fun removeFocus() {
 
-        if (mViewShadow?.visibility == View.VISIBLE) {
+        /*if (mViewShadow?.visibility == View.VISIBLE) {
             MaterialSearchAnimator.fadeClose(mViewShadow!!, mAnimationDuration)
-        }
+        }*/
 
         if (mMaterialSearchArrowDrawable != null) {
             mMaterialSearchArrowDrawable?.setVerticalMirror(true)
             mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
         }
 
-        // todo error + shadow error pri otoceni, pak mizi animace
+
+        mViewShadow?.visibility = View.GONE
+        mViewDivider?.visibility = View.GONE
         hideSuggestions()
         hideKeyboard()
         setMicOrClearIcon(false)
+        setVersionMarginsDefault()
+        setRadius(context.resources.getDimensionPixelSize(R.dimen.search_corner_radius_default).toFloat())
+        setLayoutHeight(context.resources.getDimensionPixelSize(R.dimen.search_layout_height_default))
+        setShadowColor(ContextCompat.getColor(getContext(), R.color.search_shadow)) // TODO FIX
+        elevation = context.resources.getDimensionPixelSize(R.dimen.search_elevation_default).toFloat()
 
-        if (mVersion == Version.TOOLBAR) {
-            postDelayed({
-                if (mOnOpenCloseListener != null) {
-                    mOnOpenCloseListener!!.onClose()
-                }
-            }, mAnimationDuration)
-        }
+        postDelayed({
+            if (mOnOpenCloseListener != null) {
+                mOnOpenCloseListener!!.onClose()
+            }
+        }, mAnimationDuration)
     }
 
     // close s nastavenim
@@ -886,24 +868,6 @@ class MaterialSearchView @JvmOverloads constructor(
             const val HAMBURGER = 100
             const val ARROW = 101
             const val HAMBURGER_TO_ARROW_ANIMATION = 102
-        }
-    }
-
-    @IntDef(Version.TOOLBAR, Version.MENU_ITEM)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class Version {
-        companion object {
-            const val TOOLBAR = 200
-            const val MENU_ITEM = 201
-        }
-    }
-
-    @IntDef(VersionMargins.TOOLBAR, VersionMargins.MENU_ITEM)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class VersionMargins {
-        companion object {
-            const val TOOLBAR = 300
-            const val MENU_ITEM = 301
         }
     }
 

@@ -2,8 +2,8 @@
 <resources>
 
     <style name="MaterialCardView" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">@dimen/search_corner_radius_default</item>
+        <item name="cardElevation">@dimen/search_elevation_default</item>
     </style>
 
 </resources>
