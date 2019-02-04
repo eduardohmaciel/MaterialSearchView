@@ -27,7 +27,7 @@ class MaterialSearchEditText : AppCompatEditText {
         if (keyCode == KeyEvent.KEYCODE_BACK && event?.action == KeyEvent.ACTION_UP) {
             mMaterialSearchView?.let {
                 if (it.isOpen() && hasFocus()) {
-                    it.close()
+                    //it.close()
                     return true
                 }
             }
