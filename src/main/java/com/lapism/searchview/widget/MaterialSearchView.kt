@@ -9,7 +9,6 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.MenuItem
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.lapism.searchview.R
-import com.lapism.searchview.graphics.MaterialSearchArrowDrawable
 import com.lapism.searchview.internal.MaterialSearchEditText
 import com.lapism.searchview.internal.MaterialSearchViewSavedState
 
@@ -286,7 +284,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     fun setMicColorFilter(colorFilter: ColorFilter?) {
-        mImageViewLogo?.colorFilter = colorFilter
+        mImageViewMic?.colorFilter = colorFilter
     }
 
     // *****************************************************************************************************************
@@ -321,7 +319,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     fun setMenuColorFilter(colorFilter: ColorFilter?) {
-        mImageViewLogo?.colorFilter = colorFilter
+        mImageViewMenu?.colorFilter = colorFilter
     }
 
     // *****************************************************************************************************************
@@ -438,7 +436,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     // *****************************************************************************************************************
-    fun getAdapter(): RecyclerView.Adapter<*>? {
+    private fun getAdapter(): RecyclerView.Adapter<*>? {
         return mRecyclerView?.adapter
     }
 
@@ -473,7 +471,7 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     fun setRadius(radius: Float) {
-        mMaterialCardView?.radius = radius // cleanup code
+        mMaterialCardView?.radius = radius
     }
 
     override fun setElevation(elevation: Float) {

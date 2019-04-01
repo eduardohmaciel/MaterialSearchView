@@ -1,4 +1,4 @@
-package com.lapism.searchview.graphics
+package com.lapism.searchview.widget
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -22,9 +22,13 @@ class MaterialSearchArrowDrawable(context: Context) : DrawerArrowDrawable(contex
 
     fun animate(state: Float, duration: Long) {
         val anim: ObjectAnimator = if (state == STATE_ARROW) {
-            ObjectAnimator.ofFloat(this, PROGRESS, STATE_HAMBURGER, state)
+            ObjectAnimator.ofFloat(this,
+                PROGRESS,
+                STATE_HAMBURGER, state)
         } else {
-            ObjectAnimator.ofFloat(this, PROGRESS, STATE_ARROW, state)
+            ObjectAnimator.ofFloat(this,
+                PROGRESS,
+                STATE_ARROW, state)
         }
         anim.interpolator = AccelerateDecelerateInterpolator()
         anim.duration = duration
