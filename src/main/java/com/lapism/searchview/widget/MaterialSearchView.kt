@@ -2,7 +2,9 @@ package com.lapism.searchview.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.*
+import android.graphics.ColorFilter
+import android.graphics.Rect
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.text.Editable
@@ -12,6 +14,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.*
@@ -43,7 +47,8 @@ class MaterialSearchView @JvmOverloads constructor(
     private var mAnimationDuration = 400L
 
     private var mQueryText: CharSequence? = null
-    private var mViewShadow: View? = null
+    private var mViewShadowBackground: View? = null
+    private var mViewShadowForeground: View? = null
     private var mViewDivider: View? = null
     private var mLinearLayout: LinearLayout? = null
     private var mImageViewLogo: ImageView? = null
@@ -64,10 +69,6 @@ class MaterialSearchView @JvmOverloads constructor(
     init {
         inflate(context, R.layout.material_search_view, this@MaterialSearchView)
 
-        mViewShadow = findViewById(R.id.search_view_shadow)
-        mViewShadow?.visibility = View.GONE
-        mViewShadow?.setOnClickListener(this)
-
         mViewDivider = findViewById(R.id.search_view_divider)
         mViewDivider?.visibility = View.GONE
 
@@ -81,8 +82,8 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewMic?.setOnClickListener(this)
 
         mImageViewClear = findViewById(R.id.search_imageView_clear)
-        mImageViewClear?.setOnClickListener(this)
         mImageViewClear?.visibility = View.GONE
+        mImageViewClear?.setOnClickListener(this)
 
         mImageViewMenu = findViewById(R.id.search_imageView_menu)
         mImageViewMenu?.visibility = View.GONE
@@ -135,7 +136,29 @@ class MaterialSearchView @JvmOverloads constructor(
         val typedArray =
             context.obtainStyledAttributes(attrs, R.styleable.MaterialSearchView, defStyleAttr, defStyleRes)
 
+
+
         setLogo(typedArray.getInteger(R.styleable.MaterialSearchView_search_logo, Logo.ANIMATION))
+
+
+
+        mViewShadowBackground = findViewById(R.id.search_view_shadow_background)
+        mViewShadowBackground?.visibility = View.GONE
+        mViewShadowBackground?.setBackgroundColor(ContextCompat.getColor(context, R.color.search_shadow))
+
+        mViewShadowForeground = findViewById(R.id.search_view_shadow_foreground)
+        mViewShadowForeground ?.visibility = View.GONE
+        mViewShadowForeground ?.setOnClickListener(this)
+        mViewShadowForeground?.setBackgroundColor(mMaterialCardView?.cardBackgroundColor!!.defaultColor)
+
+
+
+
+
+
+
+
+
 
 
         // TODO chose let or .... JETPACK KTX ROOM
@@ -148,14 +171,13 @@ class MaterialSearchView @JvmOverloads constructor(
         // todo zkontrolovat zalomeni + layout
 
 
-
         typedArray.recycle()
 
         /// todo ===, ?:, ::
         // LAYOUT, FILE PROVIDER, IKONKY, ATD... barvy ...            <!-- ?android:attr/listDivider never-->
 
-        setShadowColor(ContextCompat.getColor(getContext(), R.color.search_shadow))
-        setVersionMarginsDefault()
+        //setShadowColor(ContextCompat.getColor(getContext(), R.color.search_shadow))
+        removeMargin()
     }
 
     @Logo
@@ -190,50 +212,6 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    private fun setVersionMarginsDefault() {
-        var left = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
-        var top = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
-        var right = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
-        var bottom = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
-
-        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.setMargins(left, top, right, bottom)
-        mMaterialCardView?.layoutParams = params
-
-        left = 0
-        top = 0
-        right = 0
-        bottom = 0
-
-        val params2 =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        params2.setMargins(left, top, right, bottom)
-        mMaterialSearchEditText?.layoutParams = params2
-    }
-
-    private fun setVersionMarginsFocused() {
-        var left = 0
-        val top = 0
-        val right = 0
-        val bottom = 0
-
-        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.setMargins(left, top, right, bottom)
-        mMaterialCardView?.layoutParams = params
-
-        left = context.resources.getDimensionPixelSize(R.dimen.search_key_line_8)
-
-        val params2 =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        params2.setMargins(left, top, right, bottom)
-        mMaterialSearchEditText?.layoutParams = params2
-    }
-
-    // *****************************************************************************************************************
-    fun setShadowColor(@ColorInt color: Int) {
-        mViewShadow?.setBackgroundColor(color)
-    }
-
     // *****************************************************************************************************************
     fun setDividerColor(@ColorInt color: Int) {
         mViewDivider?.setBackgroundColor(color)
@@ -257,16 +235,16 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewLogo?.setImageResource(resource)
     }
 
-    fun setLogoDrawable(drawable: Drawable?) {
+    fun setLogoDrawable(@Nullable drawable: Drawable?) {
         mImageViewLogo?.setImageDrawable(drawable)
     }
 
-    fun setLogoColorFilter(@ColorInt color: Int) {
-        // val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+    fun setLogoColorFilter(color: Int) {
         mImageViewLogo?.setColorFilter(color)
     }
 
     fun setLogoColorFilter(colorFilter: ColorFilter?) {
+        // val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         mImageViewLogo?.colorFilter = colorFilter
     }
 
@@ -275,11 +253,11 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewMic?.setImageResource(resource)
     }
 
-    fun setMicDrawable(drawable: Drawable?) {
+    fun setMicDrawable(@Nullable drawable: Drawable?) {
         mImageViewMic?.setImageDrawable(drawable)
     }
 
-    fun setMicColorFilter(@ColorInt color: Int) {
+    fun setMicColorFilter(color: Int) {
         mImageViewMic?.setColorFilter(color)
     }
 
@@ -292,12 +270,11 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewClear?.setImageResource(resource)
     }
 
-    fun setClearDrawable(drawable: Drawable?) {
+    fun setClearDrawable(@Nullable drawable: Drawable?) {
         mImageViewClear?.setImageDrawable(drawable)
     }
 
-    fun setClearColorFilter(@ColorInt color: Int) {
-
+    fun setClearColorFilter(color: Int) {
         mImageViewClear?.setColorFilter(color)
     }
 
@@ -310,11 +287,11 @@ class MaterialSearchView @JvmOverloads constructor(
         mImageViewMenu?.setImageResource(resource)
     }
 
-    fun setMenuDrawable(drawable: Drawable?) {
+    fun setMenuDrawable(@Nullable drawable: Drawable?) {
         mImageViewMenu?.setImageDrawable(drawable)
     }
 
-    fun setMenuColorFilter(@ColorInt color: Int) {
+    fun setMenuColorFilter(color: Int) {
         mImageViewMenu?.setColorFilter(color)
     }
 
@@ -351,6 +328,7 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
+    // *****************************************************************************************************************
     fun getText(): Editable? {
         return mMaterialSearchEditText?.text
     }
@@ -375,40 +353,31 @@ class MaterialSearchView @JvmOverloads constructor(
         mMaterialSearchEditText?.gravity = gravity
     }
 
-    fun setTextImeOptions(imeOptions: Int) {
-        mMaterialSearchEditText?.imeOptions = imeOptions
-    }
-
     fun setTextInputType(inputType: Int) {
         mMaterialSearchEditText?.inputType = inputType
     }
 
-    fun getImeOptions(): Int? {
+    fun getTextImeOptions(): Int? {
         return mMaterialSearchEditText?.imeOptions
     }
 
-    fun setImeOptions(imeOptions: Int) {
+    fun setTextImeOptions(imeOptions: Int) {
         mMaterialSearchEditText?.imeOptions = imeOptions
     }
 
-    fun getInputType(): Int? {
+    fun getTextInputType(): Int? {
         return mMaterialSearchEditText?.inputType
     }
 
-    fun setInputType(inputType: Int) {
-        mMaterialSearchEditText?.inputType = inputType
-    }
-
-
-    fun setHint(hint: CharSequence?) {
+    fun setTextHint(hint: CharSequence?) {
         mMaterialSearchEditText?.hint = hint
     }
 
-    fun setHint(@StringRes hint: Int) {
+    fun setTextHint(@StringRes hint: Int) {
         mMaterialSearchEditText?.setHint(hint)
     }
 
-    fun setHintColor(@ColorInt color: Int) {
+    fun setTextHintColor(@ColorInt color: Int) {
         mMaterialSearchEditText?.setHintTextColor(color)
     }
 
@@ -440,11 +409,11 @@ class MaterialSearchView @JvmOverloads constructor(
         return mRecyclerView?.adapter
     }
 
-    fun setAdapter(adapter: RecyclerView.Adapter<*>) {
+    fun setAdapter(@Nullable adapter: RecyclerView.Adapter<*>) {
         mRecyclerView?.adapter = adapter
     }
 
-    fun addItemDecoration(itemDecoration: RecyclerView.ItemDecoration) {
+    fun addItemDecoration(@NonNull itemDecoration: RecyclerView.ItemDecoration) {
         mRecyclerView?.addItemDecoration(itemDecoration)
     }
 
@@ -452,13 +421,14 @@ class MaterialSearchView @JvmOverloads constructor(
         mRecyclerView?.removeItemDecoration(itemDecoration)
     }
 
-    // todo ANOTACE A NULLABLE
+    // todo ANOTACE A NULLABLE projet
     // *****************************************************************************************************************
     override fun setBackgroundColor(@ColorInt color: Int) {
         mMaterialCardView?.setCardBackgroundColor(color)
+        mViewShadowForeground?.setBackgroundColor(color)
     }
 
-    fun setBackgroundColor(color: ColorStateList?) {
+    fun setBackgroundColor(@Nullable color: ColorStateList?) {
         mMaterialCardView?.setCardBackgroundColor(color)
     }
 
@@ -519,54 +489,6 @@ class MaterialSearchView @JvmOverloads constructor(
     }
 
     // *********************************************************************************************
-    private fun addFocus() {
-        mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_ARROW, mAnimationDuration)
-
-
-        mViewShadow?.visibility = View.VISIBLE
-        mViewDivider?.visibility = View.VISIBLE
-        setMicOrClearIcon(true)
-        setVersionMarginsFocused()
-        setRadius(context.resources.getDimensionPixelSize(R.dimen.search_corner_radius_focused).toFloat())
-        setLayoutHeight(context.resources.getDimensionPixelSize(R.dimen.search_layout_height_focused))
-        //setShadowColor(mMaterialCardView?.cardBackgroundColor) // TODO FIX
-        elevation = context.resources.getDimensionPixelSize(R.dimen.search_elevation_focused).toFloat()
-
-
-
-        filter(mQueryText)
-
-
-        mOnOpenCloseListener?.onOpen()
-
-
-        postDelayed({ showKeyboard() }, mAnimationDuration)
-    }
-
-    private fun removeFocus() {
-        mViewShadow?.visibility = View.GONE
-        mViewDivider?.visibility = View.GONE
-        hideSuggestions()
-        hideKeyboard()
-        setMicOrClearIcon(false)
-        setVersionMarginsDefault()
-        setRadius(context.resources.getDimensionPixelSize(R.dimen.search_corner_radius_default).toFloat())
-        setLayoutHeight(context.resources.getDimensionPixelSize(R.dimen.search_layout_height_default))
-        setShadowColor(ContextCompat.getColor(context, R.color.search_shadow)) // TODO FIX
-        elevation = context.resources.getDimensionPixelSize(R.dimen.search_elevation_default).toFloat()
-
-        if (mMaterialSearchArrowDrawable != null) {
-            mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
-        }
-
-        postDelayed({
-            if (mOnOpenCloseListener != null) {
-                mOnOpenCloseListener?.onClose()
-            }
-        }, mAnimationDuration)
-    }
-
-
     private fun showKeyboard() {
         if (!isInEditMode) {
             val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -579,6 +501,96 @@ class MaterialSearchView @JvmOverloads constructor(
             val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
         }
+    }
+
+    // TODO KONTROLA JAK VYPADA VSUDE TO VIEW A PAGEINDICATOR, PADDINGY ATD, MARGINY
+    private fun removeMargin() {
+        var left = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
+        var top = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
+        var right = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_left_right)
+        var bottom = context.resources.getDimensionPixelSize(R.dimen.search_toolbar_margin_top_bottom)
+
+        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.setMargins(left, top, right, bottom)
+        mMaterialCardView?.layoutParams = params
+
+        left = 0
+        top = 0
+        right = 0
+        bottom = 0
+
+        val params2 =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        params2.setMargins(left, top, right, bottom)
+        mMaterialSearchEditText?.layoutParams = params2
+    }
+
+    private fun addMargin() {
+        var left = 0
+        val top = 0
+        val right = 0
+        val bottom = 0
+
+        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.setMargins(left, top, right, bottom)
+        mMaterialCardView?.layoutParams = params
+
+        left = context.resources.getDimensionPixelSize(R.dimen.search_key_line_8)
+
+        val params2 =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        params2.setMargins(left, top, right, bottom)
+        mMaterialSearchEditText?.layoutParams = params2
+    }
+
+    private fun addFocus() {
+        mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_ARROW, mAnimationDuration)
+
+        mViewShadowBackground?.visibility = View.VISIBLE
+        mViewShadowForeground?.visibility = View.VISIBLE
+        mViewDivider?.visibility = View.VISIBLE
+
+        addMargin()
+        setRadius(context.resources.getDimensionPixelSize(R.dimen.search_corner_radius_focused).toFloat())
+        setLayoutHeight(context.resources.getDimensionPixelSize(R.dimen.search_layout_height_focused))
+        elevation = context.resources.getDimensionPixelSize(R.dimen.search_elevation_focused).toFloat()
+
+        //setMicOrClearIcon(true)
+        //filter(mQueryText)
+
+        mOnOpenCloseListener?.onOpen()
+        postDelayed({ showKeyboard() }, mAnimationDuration)
+
+        /*val anim = ScaleAnimation(0f, 1f, 0f, 1f)//,  Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f)
+        anim.duration = mAnimationDuration
+        //anim.fillAfter = true
+        mMaterialCardView?.startAnimation(anim)*/
+    }
+
+    private fun removeFocus() {
+        mMaterialSearchArrowDrawable?.animate(MaterialSearchArrowDrawable.STATE_HAMBURGER, mAnimationDuration)
+
+        mViewShadowBackground?.visibility = View.GONE
+        mViewShadowForeground?.visibility = View.GONE
+        mViewDivider?.visibility = View.GONE
+
+        removeMargin()
+        setRadius(context.resources.getDimensionPixelSize(R.dimen.search_corner_radius_default).toFloat())
+        setLayoutHeight(context.resources.getDimensionPixelSize(R.dimen.search_layout_height_default))
+        elevation = context.resources.getDimensionPixelSize(R.dimen.search_elevation_default).toFloat()
+
+        //HideSuggestions()
+        //setMicOrClearIcon(false)
+
+        hideKeyboard()
+        postDelayed({
+            mOnOpenCloseListener?.onClose()
+        }, mAnimationDuration)
+
+        /*val anim = ScaleAnimation(1f, 0f, 1f, 0f)//,  Animation.RELATIVE_TO_SELF, 1f, Animation.RELATIVE_TO_SELF, 1f)
+        anim.duration = mAnimationDuration
+        //anim.fillAfter = true interpolator
+        mMaterialCardView?.startAnimation(anim)*/
     }
 
     private fun setMicOrClearIcon(hasFocus: Boolean) {
@@ -619,11 +631,11 @@ class MaterialSearchView @JvmOverloads constructor(
 
     // todo @colorres
     // TODO PROJIT VSECHNY METODY, ? ATD
-    private fun clearIconsColor() {
+    /*private fun clearIconsColor() {
         mImageViewLogo?.clearColorFilter()
         mImageViewMic?.clearColorFilter()
         mImageViewClear?.clearColorFilter()
-    }
+    }*/
 
     private fun onSubmitQuery() {
         val query = mMaterialSearchEditText?.text
@@ -641,7 +653,7 @@ class MaterialSearchView @JvmOverloads constructor(
         filter(s)
 
         if (mOnQueryTextListener != null) {
-            mOnQueryTextListener!!.onQueryTextChange(mQueryText)
+            mOnQueryTextListener?.onQueryTextChange(mQueryText)
         }
     }
 
@@ -653,7 +665,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
         mMaterialSearchEditText?.requestFocus()
         mMaterialSearchEditText?.clearFocus()
-
+        // PROJIT KLASICKE SEARCHVIEW TODO
         /*
         if (!isIconified()) {
             val result = mSearchSrcTextView.requestFocus(direction, previouslyFocusedRect)
@@ -679,7 +691,7 @@ class MaterialSearchView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val ss = MaterialSearchViewSavedState(superState!!)
         ss.hasFocus = mMaterialSearchEditText?.hasFocus()!!
-        ss.shadowVisibility = mViewShadow?.visibility!!
+        ss.shadowVisibility = mViewShadowForeground?.visibility!!
         ss.query = mQueryText.toString()
         return ss
     }
@@ -690,7 +702,7 @@ class MaterialSearchView @JvmOverloads constructor(
             return
         }
         super.onRestoreInstanceState(state.superState)
-        mViewShadow?.visibility = state.shadowVisibility
+        mViewShadowForeground?.visibility = state.shadowVisibility
         if (state.hasFocus) {
             //open()
         }
@@ -703,7 +715,7 @@ class MaterialSearchView @JvmOverloads constructor(
     override fun onClick(v: View?) {
         if (v == mImageViewLogo) {
             if (mMaterialSearchEditText?.hasFocus()!!) {
-                //close()
+                mMaterialSearchEditText?.clearFocus()
             } else {
                 if (mOnLogoClickListener != null) {
                     mOnLogoClickListener?.onLogoClick()
@@ -721,8 +733,8 @@ class MaterialSearchView @JvmOverloads constructor(
             if (mOnMenuClickListener != null) {
                 mOnMenuClickListener?.onMenuClick()
             }
-        } else if (v == mViewShadow) {
-            //close()
+        } else if (v == mViewShadowForeground) {
+            mMaterialSearchEditText?.clearFocus()
         }
     }
 
